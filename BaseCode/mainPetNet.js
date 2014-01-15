@@ -33,7 +33,7 @@ function createScene ()
 
 	camera.position.z = 100;
 	camera.position.y = 20;
-	camera.rotation.x = -20 * Math.PI / 180;
+	//camera.rotation.x = -15 * Math.PI / 180;
 
 	makeAMesh();
 	makeLight();
@@ -63,7 +63,7 @@ function makeAMesh ()
 		targetPos[i] = new THREE.Vector3(10,10,0);
 	}
 
-	var newPlanePos = new THREE.Vector3(10,10,0);
-	objects[0] = new Object(newPlanePos, 'Grapic/Pet/earth.png', 1101, 100, 100);
+	var newPlanePos = new THREE.Vector3(0,0,-10);
+	objects[0] = new Object(newPlanePos, 'Grapic/Ouside/bg.png', 1101, 200, 150);
 
 }

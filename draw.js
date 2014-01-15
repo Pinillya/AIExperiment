@@ -25,18 +25,19 @@ function movePets ()
 {	
 
 
-    var ranNumX = 100, ranNumZ = 0;
+    var ranNumX = 100, ranNumZ = 0, ranNumY = 0;
    	//Frame counter
-	if(frameTimer < 200)
+	if(frameTimer < 50)
 	{
 		frameTimer++;
 	} else {
 		for (var i = pets.length-1; i >= 0; i--) 
 		{
-			ranNumX = -100 + THREE.Math.random16() * 300;
-			ranNumZ = -100 + THREE.Math.random16() * 300;
+			ranNumX = THREE.Math.random16() * 50;
+			ranNumY = THREE.Math.random16() * 50;
+			ranNumZ = THREE.Math.random16() * 50;
 
-			targetPos[i] = new THREE.Vector3(ranNumX,0,ranNumZ);
+			targetPos[i] = new THREE.Vector3(ranNumX,ranNumY,ranNumZ);
 			frameTimer = 0;
 		}
 	};

@@ -34,6 +34,16 @@ Pet.prototype.walking = function(targetPosition)
 		this.pet.position.x -= 0.1;
 	}
 
+	//Walk Y
+	if (targetPosition.y > this.pet.position.y)
+	{
+		this.pet.position.y += 0.1;
+	}
+	if (targetPosition.y < this.pet.position.y)
+	{
+		this.pet.position.y -= 0.1;
+	}
+
 	//Walk Z
 	if (targetPosition.z > this.pet.position.z)
 	{

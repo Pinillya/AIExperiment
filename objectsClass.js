@@ -40,9 +40,10 @@ function Object (position, texture, idNumber, sizeX, sizeY)
 		planeMaterial);
 
 	scene.add(this.plane);
-	this.plane.position.y = position.y;
-	this.plane.position.x = position.x;
-	this.plane.position.z = position.z;
+	this.plane.position = position;
+	//this.plane.position.x = position.x;
+	//this.plane.position.y = position.y;
+	//this.plane.position.z = position.z;
 
 }
 
