@@ -14,6 +14,16 @@ function draw ()
     }
     lastTime = timeNow;
 
+	playerInput();
+	movePets();
+
+	renderer.render( scene, camera );
+	requestAnimationFrame(draw);
+}
+
+function movePets () 
+{	
+
 
     var ranNumX = 100, ranNumZ = 0;
    	//Frame counter
@@ -23,26 +33,17 @@ function draw ()
 	} else {
 		for (var i = pets.length-1; i >= 0; i--) 
 		{
-			ranNumX = -100 + THREE.Math.random16() * 200;
-			ranNumZ = -100 + THREE.Math.random16() * 200;
+			ranNumX = -100 + THREE.Math.random16() * 300;
+			ranNumZ = -100 + THREE.Math.random16() * 300;
 
 			targetPos[i] = new THREE.Vector3(ranNumX,0,ranNumZ);
 			frameTimer = 0;
 		}
 	};
-	
-	keyHandeling();
-	movePets();
-	renderer.render( scene, camera );
-	requestAnimationFrame(draw);
-}
 
 
-function movePets () 
-{	
 	for (var i = pets.length - 1; i >= 0; i--) 
 	{
 		pets[i].walking(targetPos[i]);
-		//pets[0].walking(targetPos);
 	};
 }

@@ -1,6 +1,4 @@
 //--------Global variables-----------
-var sceneSize;
-
 function setup () 
 {
 	createScene();
@@ -10,8 +8,8 @@ function setup ()
 function createScene () 
 {
 	//Basic
-	var WIDTH = 640,
-	HEIGHT = 360;
+	var WIDTH = 800,
+	HEIGHT = 450;
 
 	var VIEW_ANGLE = 50,
 	  ASPECT = WIDTH / HEIGHT,
@@ -25,10 +23,6 @@ function createScene ()
 	var c = document.getElementById("gameCanvas");
 	c.appendChild(renderer.domElement);
 
-
-	//Making the scene
-	sceneSize = 100;
-
 	camera = new THREE.PerspectiveCamera(
 		VIEW_ANGLE,
 		ASPECT,
@@ -38,7 +32,7 @@ function createScene ()
 	scene.add(camera);
 
 	camera.position.z = 100;
-	camera.position.y = sceneSize + 20;
+	camera.position.y = 20;
 	camera.rotation.x = -20 * Math.PI / 180;
 
 	makeAMesh();
@@ -58,15 +52,18 @@ function makeLight () {
 }
 
 pets = [];
+objects = [];
 function makeAMesh () 
 {
 
-	pets[0] = new Pet('Grapic/Pet/player.png', 0, 0);
-	pets[1] = new Pet('Grapic/Pet/player.png', 10, 0);
+	pets[0] = new Pet('Grapic/Pet/pet.png', 0, 0);
 
 	for (var i = pets.length-1; i >= 0; i--) 
 	{
-		targetPos[i] = new THREE.Vector3(10,0,0);
+		targetPos[i] = new THREE.Vector3(10,10,0);
 	}
+
+	var newPlanePos = new THREE.Vector3(10,10,0);
+	objects[0] = new Object(newPlanePos, 'Grapic/Pet/earth.png', 1101, 100, 100);
 
 }

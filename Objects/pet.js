@@ -6,7 +6,7 @@ function Pet (petTexture, xCoordinates, yCoordinates)
 	var petMaterial;
 
 	///Make the man
-	var petHight = 10, petWith = 10, petQuality = 10, petYPos = sceneSize+petHight/2;
+	var petHight = 10, petWith = 10, petQuality = 10, petYPos = petHight/2;
 	petMaterial = new THREE.MeshBasicMaterial({ map: THREE.ImageUtils.loadTexture(petTexture), transparent: true});
 
 	this.pet = new THREE.Mesh(
@@ -24,8 +24,6 @@ function Pet (petTexture, xCoordinates, yCoordinates)
 
 Pet.prototype.walking = function(targetPosition) 
 {
-	//alert(targetPosition.x + " *X");
-	//alert(targetPosition.y + " *Y");
 	//Walk X
 	if (targetPosition.x > this.pet.position.x)
 	{
