@@ -39,7 +39,8 @@ function createScene ()
 	makeLight();
 }
 
-function makeLight () {
+function makeLight () 
+{
 	pointLight = new THREE.SpotLight(0xF8D898);
 
 	pointLight.position.x = -1000;
@@ -65,9 +66,23 @@ function makeAMesh ()
 	}
 
 	placingObj = new THREE.Vector3(0,0,-10);
-	objects[0] = new Object(placingObj, 'Grapic/Ouside/bg.png', 1101, 200, 150);
+	objects[0] = new Object(
+	placingObj, 'Grapic/Ouside/bg.png', 'bg01', 
+	200, 150, 0, 0,
+	true, false, false, false, 0);
 
 	placingObj = new THREE.Vector3(19,0,10);
-	objects[1] = new Object(placingObj, 'Grapic/Inside/food.png', 1101, 10, 10);
+	objects[1] = new Object(
+	placingObj, 'Grapic/Inside/food.png', 'food01', 
+	10, 10, 10, 0,
+	true, true, false, false, 60);
+
+/*
+	objects[X] = new Object(
+	position, texture, idNumber, 
+	sizeX, sizeY, smellRadius, soundRadius,
+	isStatic, hasSmell, hasSoud, hasAnimation,initialValue
+	);
+*/
 
 }

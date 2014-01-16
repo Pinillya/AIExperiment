@@ -1,12 +1,9 @@
-//--------Global variables-----------
-
 function Pet (petTexture, xCoordinates, yCoordinates) 
 {
-	//var pet;
 	var petMaterial;
 
-	///Make the man
-	var petHight = 20, petWith = 20, petQuality = 10, petYPos = petHight/2;
+	///Make the pet
+	var petHight = 20, petWith = 20, petQuality = 1;
 	petMaterial = new THREE.MeshBasicMaterial({ map: THREE.ImageUtils.loadTexture(petTexture), transparent: true});
 
 	this.pet = new THREE.Mesh(
@@ -18,13 +15,12 @@ function Pet (petTexture, xCoordinates, yCoordinates)
 		petMaterial);
 
 	scene.add(this.pet);
-	this.pet.position.y = petYPos + yCoordinates;
+	this.pet.position.y = yCoordinates;
 	this.pet.position.x = xCoordinates;
 }
 
 var hovering = 100;
-var hoverUp = true;
-Pet.prototype.moving = function(targetPosition, frameTimer) 
+Pet.prototype.moving = function(targetPosition) 
 {
 	var hoverDistance = 1;
 	var hoverSpeed = 1.1;
@@ -33,54 +29,12 @@ Pet.prototype.moving = function(targetPosition, frameTimer)
 	if (hovering > hoverDistance)
 	{
 		hoverSpeed = Math.sin(hovering);
-		/*if (hoverUp)
-		{	
-
-			//console.log(hoverSpeed + " up");
-			//hovering = hovering / hoverSpeed;
-			this.pet.position.y += hoverSpeed/15;
-
-		}
-		else
-		{
-			console.log(hoverSpeed + " down");
-			//hovering = hovering / hoverSpeed;
-			this.pet.position.y -= hoverSpeed/15;
-		}*/
 		this.pet.position.y += hoverSpeed/20;
 		hovering -= 0.1;
 	}
 	else 
 	{
-	/*	if (hoverUp)
-		{
-			//console.log(hovering + "false");
-			//Denne funker nå
-			hoverUp = false;	
-		}
-
-		else if (!hoverUp)
-		{
-			hoverUp = true;
-			//console.log(hovering + "true");
-			//Denne funker ikke nå
-			
-		}	*/
 		hovering = 100;
-	}
-
-	console.log(hovering);
-
-	
-/*
-	//HoveringPet
-	if (frameTimer < 50)
-	{
-		this.pet.position.y += 0.05;
-	}
-	else
-	{
-		this.pet.position.y -= 0.05;
 	}
 
 	//Walk X
@@ -93,6 +47,7 @@ Pet.prototype.moving = function(targetPosition, frameTimer)
 		this.pet.position.x -= 0.1;
 	}
 
+/*	Commented this out to look at the wobbely hovering
 	//Walk Y
 	if (targetPosition.y > this.pet.position.y)
 	{
@@ -102,6 +57,7 @@ Pet.prototype.moving = function(targetPosition, frameTimer)
 	{
 		this.pet.position.y -= 0.1;
 	}
+*/
 
 	//Walk Z
 	if (targetPosition.z > this.pet.position.z)
@@ -111,6 +67,11 @@ Pet.prototype.moving = function(targetPosition, frameTimer)
 	if (targetPosition.z < this.pet.position.z)
 	{
 		this.pet.position.z -= 0.1;
-	}*/
+	}
 };
 
+var petObjectInput = [];
+Pet.prototype.checkObjects = function(petNumber, itemNumber) 
+{
+	this.petObjectInput = objects[itemNumber].encounter(this.pet.position);
+};

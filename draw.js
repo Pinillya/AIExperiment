@@ -23,10 +23,8 @@ function draw ()
 
 function movePets () 
 {	
-
-
+//Frame counter makes sure the Pet does not check everything constantly.
     var ranNumX = 100, ranNumZ = 0, ranNumY = 0;
-   	//Frame counter
 	if(frameTimer < 100)
 	{
 		frameTimer++;
@@ -39,12 +37,16 @@ function movePets ()
 
 			targetPos[i] = new THREE.Vector3(ranNumX,ranNumY,ranNumZ);
 			frameTimer = 0;
-		}
+
+			for (var j = objects.length - 1; j >= 0; j--) {
+				pets[i].checkObjects(i, j);
+			};
+		};
 	};
 
 
 	for (var i = pets.length - 1; i >= 0; i--) 
 	{
-		pets[i].moving(targetPos[i], frameTimer);
+		pets[i].moving(targetPos[i]);
 	};
 }

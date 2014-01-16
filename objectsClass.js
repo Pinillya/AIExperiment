@@ -1,23 +1,18 @@
-function Object (position, texture, idNumber, sizeX, sizeY) 
+function Object (position, texture, idNumber, sizeX, sizeY, smellRadius, soundRadius, isStatic, hasSmell, hasSound, hasAnimation, initialValue) 
 {
-	var isStatic = true;
-	var hasSmell = false;
-	var hasSound = false;
-	var hasAnimation = false;
-	var expectations = 0;
-
-	this.idNumber = idNumber
+	this.idNumber = idNumber;
 	this.position = position;
 	this.texture = texture;
 
-	if (hasSound)
-	{
-		//this.objectSound();
-	}
-	if (hasSmell)
-	{
-		//this.objectSmell();
-	}
+	this.hasSmell = hasSmell;
+	this.smellRadius = smellRadius;
+	this.hasSound = hasSound;
+	this.soundRadius = soundRadius;
+
+	this.isStatic = isStatic;
+	this.hasAnimation = hasAnimation;
+	this.initialValue = initialValue;
+
 	if (hasAnimation)
 	{
 		//this.meshAnimation();
@@ -29,7 +24,7 @@ function Object (position, texture, idNumber, sizeX, sizeY)
 
 //Texture:
 	var planeQuality = 10;
-	var planeMaterial = new THREE.MeshBasicMaterial({ map: THREE.ImageUtils.loadTexture(texture), transparent: true});
+	var planeMaterial = new THREE.MeshBasicMaterial({ map: THREE.ImageUtils.loadTexture(this.texture), transparent: true});
 
 	this.plane = new THREE.Mesh(
 		new THREE.PlaneGeometry(
@@ -45,6 +40,12 @@ function Object (position, texture, idNumber, sizeX, sizeY)
 
 Object.prototype.objectSmell = function(petPos) 
 {
+	var distanceToPet = this.plane.position.distanceTo(petPos);
+	if (distanceToPet < this.smellRadius)
+	{
+		console.log (distanceToPet);
+	};
+
 	//Returns direction, asosiations, 
 	//Merge Smell and Sound?  - nah might have different things. Might merge a bit of them. Run direction through a fun
 	//Esentially checking 
@@ -53,14 +54,31 @@ Object.prototype.objectSmell = function(petPos)
 
 Object.prototype.objectSound = function(petPos) 
 {
+	var distanceToPet = this.plane.position.distanceTo(petPos);
+	if (distanceToPet < this.soundRadius)
+	{
+		console.log (distanceToPet);
+	};
 };
 
 Object.prototype.meshAnimation = function() 
 {
+	console.log ("animation");
 };
 
-Object.prototype.expectation = function() //name is Encountering instead? 
+Object.prototype.encounter = function(petPos) //name is Encountering instead? 
 {
+	//console.log (petPos);
+
+	if (this.hasSound)
+	{
+		this.objectSound(petPos);
+	}
+	if (this.hasSmell)
+	{
+		this.objectSmell(petPos);
+	}
+
 	//if (pet officially encounters the object)
 	//Check the encounter list of the pet up agains the objects personal number
 	// if the pet has not saved the personal number in the "known" array:
@@ -74,10 +92,11 @@ Object.prototype.expectation = function() //name is Encountering instead?
 
 Object.prototype.functionSender = function() 
 {
+	console.log ("functionSender");
 };
 
 Object.prototype.physics = function() 
 {
-
+	console.log ("physics");
 };
 
