@@ -27,7 +27,7 @@ function movePets ()
 
     var ranNumX = 100, ranNumZ = 0, ranNumY = 0;
    	//Frame counter
-	if(frameTimer < 50)
+	if(frameTimer < 100)
 	{
 		frameTimer++;
 	} else {
@@ -45,6 +45,6 @@ function movePets ()
 
 	for (var i = pets.length - 1; i >= 0; i--) 
 	{
-		pets[i].walking(targetPos[i]);
+		pets[i].moving(targetPos[i], frameTimer);
 	};
 }

@@ -53,6 +53,7 @@ function makeLight () {
 
 pets = [];
 objects = [];
+var placingObj;
 function makeAMesh () 
 {
 
@@ -63,7 +64,10 @@ function makeAMesh ()
 		targetPos[i] = new THREE.Vector3(10,10,0);
 	}
 
-	var newPlanePos = new THREE.Vector3(0,0,-10);
-	objects[0] = new Object(newPlanePos, 'Grapic/Ouside/bg.png', 1101, 200, 150);
+	placingObj = new THREE.Vector3(0,0,-10);
+	objects[0] = new Object(placingObj, 'Grapic/Ouside/bg.png', 1101, 200, 150);
+
+	placingObj = new THREE.Vector3(19,0,10);
+	objects[1] = new Object(placingObj, 'Grapic/Inside/food.png', 1101, 10, 10);
 
 }

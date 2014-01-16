@@ -41,16 +41,12 @@ function Object (position, texture, idNumber, sizeX, sizeY)
 
 	scene.add(this.plane);
 	this.plane.position = position;
-	//this.plane.position.x = position.x;
-	//this.plane.position.y = position.y;
-	//this.plane.position.z = position.z;
-
 }
 
 Object.prototype.objectSmell = function(petPos) 
 {
 	//Returns direction, asosiations, 
-	//Merge Smell and Sound? 
+	//Merge Smell and Sound?  - nah might have different things. Might merge a bit of them. Run direction through a fun
 	//Esentially checking 
 	//Sound, Smell, contact. -> should pet now get function? 
 };
