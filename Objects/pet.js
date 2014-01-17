@@ -1,3 +1,4 @@
+petItemsKnown = [];
 function Pet (petTexture, xCoordinates, yCoordinates) 
 {
 	var petMaterial;
@@ -70,8 +71,15 @@ Pet.prototype.moving = function(targetPosition)
 	}
 };
 
-var petObjectInput = [];
 Pet.prototype.checkObjects = function(petNumber, itemNumber) 
 {
-	this.petObjectInput = objects[itemNumber].encounter(this.pet.position);
+	//var petObjectInput = [];
+	var petObjectInput = objects[itemNumber].encounter(this.pet.position);
+
+	if (petObjectInput[0] == 1)
+	{
+		console.log (petObjectInput[3] );
+	}
 };
+
+

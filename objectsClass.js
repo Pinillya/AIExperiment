@@ -76,22 +76,24 @@ Object.prototype.meshAnimation = function()
 Object.prototype.encounter = function(petPos) //name is Encountering instead? 
 {
 	var distanceToPet = this.plane.position.distanceTo(petPos);
-	var soundInRange = false, smellInRange = false, touching = false;
+	var soundInRange = 0, smellInRange = 0, touching = 0;
 
 	if (distanceToPet < this.smellRadius)
 	{
-		smellInRange = true;
+		smellInRange = 1;
+		console.log ("moo");
 	}
 	if (distanceToPet < this.soundRadius)
 	{
-		smellInRange = true;
+		smellInRange = 1;
 	}
 	if (distanceToPet < 1)
 	{
-		touching = true;
+		touching = 1;
+		//Might have a thing here stopping the pet from being able to walk through the object. 
 	}
 
-	return smellInRange, soundInRange, touching, this.idNumber;
+	return [smellInRange, soundInRange, touching, this.idNumber];
 	//return this.objectSmell(petPos), this.objectSound(petPos), this.idNumber;
 };
 
