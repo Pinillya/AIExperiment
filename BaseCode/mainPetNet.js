@@ -77,6 +77,12 @@ function makeAMesh ()
 	10, 10, 10, 0,
 	true, true, false, false, 60);
 
+	placingObj = new THREE.Vector3(-19,0,20);
+	objects[2] = new Object(
+	placingObj, 'Grapic/Inside/food.png', 'food01', 
+	10, 10, 10, 0,
+	true, true, false, false, 60);
+
 /*
 	objects[X] = new Object(
 	position, texture, idNumber, 

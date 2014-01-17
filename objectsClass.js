@@ -40,25 +40,30 @@ function Object (position, texture, idNumber, sizeX, sizeY, smellRadius, soundRa
 
 Object.prototype.objectSmell = function(petPos) 
 {
+	/*
 	var distanceToPet = this.plane.position.distanceTo(petPos);
 	if (distanceToPet < this.smellRadius)
 	{
-		console.log (distanceToPet);
-	};
-
-	//Returns direction, asosiations, 
-	//Merge Smell and Sound?  - nah might have different things. Might merge a bit of them. Run direction through a fun
-	//Esentially checking 
-	//Sound, Smell, contact. -> should pet now get function? 
+		//console.log (distanceToPet);
+		return true;
+	} else 
+	{
+		return false;
+	};*/
 };
 
 Object.prototype.objectSound = function(petPos) 
 {
+	/*
 	var distanceToPet = this.plane.position.distanceTo(petPos);
 	if (distanceToPet < this.soundRadius)
 	{
-		console.log (distanceToPet);
-	};
+		//console.log (distanceToPet);
+		return true;
+	} else
+	{
+		return false;
+	}*/
 };
 
 Object.prototype.meshAnimation = function() 
@@ -66,9 +71,32 @@ Object.prototype.meshAnimation = function()
 	console.log ("animation");
 };
 
+//encounters the object, returns frue/false if item is in smelling or sound range
+//returns the item "number"
 Object.prototype.encounter = function(petPos) //name is Encountering instead? 
 {
-	//console.log (petPos);
+	var distanceToPet = this.plane.position.distanceTo(petPos);
+	var soundInRange = false, smellInRange = false, touching = false;
+
+	if (distanceToPet < this.smellRadius)
+	{
+		smellInRange = true;
+	}
+	if (distanceToPet < this.soundRadius)
+	{
+		smellInRange = true;
+	}
+	if (distanceToPet < 1)
+	{
+		touching = true;
+	}
+
+	return smellInRange, soundInRange, touching, this.idNumber;
+	//return this.objectSmell(petPos), this.objectSound(petPos), this.idNumber;
+};
+
+Object.prototype.interact = function(petPos) //name is Encountering instead? 
+{
 
 	if (this.hasSound)
 	{
@@ -78,6 +106,7 @@ Object.prototype.encounter = function(petPos) //name is Encountering instead?
 	{
 		this.objectSmell(petPos);
 	}
+	//console.log (petPos);
 
 	//if (pet officially encounters the object)
 	//Check the encounter list of the pet up agains the objects personal number
@@ -88,6 +117,11 @@ Object.prototype.encounter = function(petPos) //name is Encountering instead?
 		// 
 		//All this has to be done in a return array so that the pet that encounters the object
 		//can collect the data on its own. 
+};
+
+Object.prototype.sendNewPetTarget = function() 
+{
+	console.log ("sendNewPetTarget");
 };
 
 Object.prototype.functionSender = function() 
