@@ -1,3 +1,4 @@
+var objToPetTargetPos= new THREE.Vector3(0,0,0);
 function Object (position, texture, idNumber, sizeX, sizeY, smellRadius, soundRadius, isStatic, hasSmell, hasSound, hasAnimation, initialValue) 
 {
 	this.idNumber = idNumber;
@@ -12,6 +13,8 @@ function Object (position, texture, idNumber, sizeX, sizeY, smellRadius, soundRa
 	this.isStatic = isStatic;
 	this.hasAnimation = hasAnimation;
 	this.initialValue = initialValue;
+
+	this.objToPetTargetPos = objToPetTargetPos;
 
 	if (hasAnimation)
 	{
@@ -38,8 +41,27 @@ function Object (position, texture, idNumber, sizeX, sizeY, smellRadius, soundRa
 	this.plane.position = position;
 }
 
-Object.prototype.objectSmell = function(petPos) 
+Object.prototype.objectSmell = function(petPos, errorArea) 
 {
+	if (this.objToPetTargetPos.x > this.position.x)
+	{
+		this.objToPetTargetPos.x = this.position.x + THREE.Math.random16() * errorArea;
+	}
+	else if (this.objToPetTargetPos.x < this.position.x)
+	{
+		this.objToPetTargetPos.x = this.position.x - errorArea - THREE.Math.random16() * errorArea;
+	};
+
+	if (this.objToPetTargetPos.z > this.position.z)
+	{
+		this.objToPetTargetPos.z = this.position.z + THREE.Math.random16() * errorArea;
+	}
+	else if (this.objToPetTargetPos.x < this.position.x)
+	{
+		this.objToPetTargetPos.z = this.position.z - errorArea - THREE.Math.random16() * errorArea;
+	};
+
+	return this.objToPetTargetPos;
 	/*
 	var distanceToPet = this.plane.position.distanceTo(petPos);
 	if (distanceToPet < this.smellRadius)
@@ -78,22 +100,46 @@ Object.prototype.encounter = function(petPos) //name is Encountering instead?
 	var distanceToPet = this.plane.position.distanceTo(petPos);
 	var soundInRange = 0, smellInRange = 0, touching = 0;
 
-	if (distanceToPet < this.smellRadius)
-	{
-		smellInRange = 1;
-		console.log ("moo");
-	}
-	if (distanceToPet < this.soundRadius)
-	{
-		smellInRange = 1;
-	}
+	//This probably has to be inside of the two above. It should also be a pet.y vs object.y+hight
 	if (distanceToPet < 1)
 	{
-		touching = 1;
+		touching = 3;
+		console.log ('touching');
+
 		//Might have a thing here stopping the pet from being able to walk through the object. 
 	}
 
-	return [smellInRange, soundInRange, touching, this.idNumber];
+	else if (distanceToPet < this.smellRadius*1.2)
+	{
+		if (distanceToPet < this.smellRadius)
+		{
+			smellInRange = 1;
+
+			//We check if the pet is really close
+			if (distanceToPet < this.smellRadius/2)
+			{
+				smellInRange = 2;
+			}
+		}
+	}
+
+	else if (distanceToPet < this.soundRadius*1.2)
+	{
+		if (distanceToPet < this.soundRadius)
+		{
+			smellInRange = 1;
+
+			//We check if the pet is really close
+			if (distanceToPet < this.soundRadius/2)
+			{
+				smellInRange = 2;
+			}
+		}
+	};
+
+
+
+	return [smellInRange, soundInRange, touching, this.idNumber, this.position];
 	//return this.objectSmell(petPos), this.objectSound(petPos), this.idNumber;
 };
 

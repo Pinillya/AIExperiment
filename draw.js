@@ -2,9 +2,6 @@
 //-------Globals-------
 var lastTime = 0;
 var deltaTime = 0;
-var frameTimer = 0;
-var targetPos = [];
-var exploring = true;
 
 function draw () 
 {
@@ -22,29 +19,20 @@ function draw ()
 	requestAnimationFrame(draw);
 }
 
+var frameCounter = 0;
 function movePets () 
 {	
-//Frame counter makes sure the Pet does not check everything constantly.
-    var ranNumX = 100, ranNumZ = 0, ranNumY = 0;
-	if(frameTimer < 100)
+
+	if (frameCounter > 100)
 	{
-		frameTimer++;
-	} else {
-		if (exploring)
-		{
-			for (var i = pets.length-1; i >= 0; i--) 
-			{
-				ranNumX = THREE.Math.random16() * 50;
-				ranNumY = THREE.Math.random16() * 50;
-				ranNumZ = THREE.Math.random16() * 50;
+		frameCounter = 0;
+	}
+	else {
+		frameCounter++;
+	}
 
-				targetPos[i] = new THREE.Vector3(ranNumX,ranNumY,ranNumZ);
-				frameTimer = 0;
-			};
-		};
-	};
-
-	if (frameTimer == 50 || frameTimer == 0) 
+//Smells and listen for objects around it. 
+	if (frameCounter == 1 || frameCounter == 50) 
 	{
 		for (var i = pets.length-1; i >= 0; i--) 
 		{
@@ -54,9 +42,8 @@ function movePets ()
 		};
 	};
 
-
 	for (var i = pets.length - 1; i >= 0; i--) 
 	{
-		pets[i].moving(targetPos[i]);
+		pets[i].moving(frameCounter);
 	};
 }

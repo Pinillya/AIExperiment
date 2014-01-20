@@ -59,11 +59,11 @@ function makeAMesh ()
 {
 
 	pets[0] = new Pet('Grapic/Pet/pet.png', 0, 0);
-
+/*
 	for (var i = pets.length-1; i >= 0; i--) 
 	{
 		targetPos[i] = new THREE.Vector3(10,10,0);
-	}
+	}*/
 
 	placingObj = new THREE.Vector3(0,0,-10);
 	objects[0] = new Object(
