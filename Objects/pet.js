@@ -30,7 +30,7 @@ var exploring = true;
 Pet.prototype.moving = function(frameCounter) 
 {
 
-//The pet finds random positions to walk to if it wants to explore
+    //The pet finds random positions to walk to if it wants to explore
 	if (frameCounter == 50 && this.exploring) 
 	{
 		var ranNumX = 100, ranNumZ = 0, ranNumY = 0;
@@ -55,52 +55,55 @@ Pet.prototype.moving = function(frameCounter)
 	else 
 	{
 		hovering = 100;
-	}
+	};
 
 	//Walk X
 	if (this.targetPosition.x > this.pet.position.x)
 	{
 		this.pet.position.x += 0.1;
 	}
-	if (this.targetPosition.x < this.pet.position.x)
+	else if (this.targetPosition.x < this.pet.position.x)
 	{
 		this.pet.position.x -= 0.1;
-	}
-
-/*	Commented this out to look at the wobbely hovering
-	//Walk Y
-	if (targetPosition.y > this.pet.position.y)
+	};
+/*
+	//Walk Y - We probably wont have flying as part of the pet. - will have to dev a jump.
+	if (this.targetPosition.y > this.pet.position.y)
 	{
 		this.pet.position.y += 0.1;
 	}
-	if (targetPosition.y < this.pet.position.y)
+	else if (this.targetPosition.y < this.pet.position.y)
 	{
 		this.pet.position.y -= 0.1;
-	}
+	};
 */
-
 	//Walk Z
 	if (this.targetPosition.z > this.pet.position.z)
 	{
 		this.pet.position.z += 0.1;
 	}
-	if (this.targetPosition.z < this.pet.position.z)
+	else if (this.targetPosition.z < this.pet.position.z)
 	{
 		this.pet.position.z -= 0.1;
-	}
+	};
 };
 
 Pet.prototype.checkObjects = function(petNumber, itemNumber) 
 {
 	//var petObjectInput = [];
 	//Returns values: smellInRange(0), soundInRange(1), touching(2), this.idNumber(3), position(4)
-	var petObjectInput = objects[itemNumber].encounter(this.pet.position, 5);
+	var petObjectInput = objects[itemNumber].encounter(this.pet.position);
+	
+	if (petObjectInput[0] == 3)
+	{
+		//Run touching code
+	}
 
-	if (petObjectInput[0] == 1 || petObjectInput[0] == 2)
+	else if (petObjectInput[0] == 2)
 	{
 		this.exploring = false;
-		this.targetPosition = objects[itemNumber].objectSmell(this.pet.position);
-		console.log (this.targetPosition.x + ' ' + this.targetPosition.y + ' ' +this.targetPosition.z);
+		this.targetPosition = objects[itemNumber].objectSmell(this.pet.position, 2);
+		console.log (this.targetPosition.x + ' 2test ' + this.targetPosition.y + ' ' +this.targetPosition.z);
 /*
 		this.targetPosition = this.pet.position;
 		var travleDirectionValue = 2;
@@ -136,6 +139,46 @@ Pet.prototype.checkObjects = function(petNumber, itemNumber)
 		//Can check if interested. Goes in a direction towards it. 
 */
 	}
+	else if (petObjectInput[0] == 1)
+	{
+		this.exploring = false;
+		this.targetPosition = objects[itemNumber].objectSmell(this.pet.position, 5);
+		console.log (this.targetPosition.x + ' 1test ' + this.targetPosition.y + ' ' +this.targetPosition.z);
+/*
+		this.targetPosition = this.pet.position;
+		var travleDirectionValue = 2;
+		var targetDirX = 0;
+		var targetDirZ = 0;
+		//X direction
+		if (petObjectInput[4].x > this.pet.position.x)
+		{
+			targetDirX = this.targetPosition.x + travleDirectionValue;
+			console.log (petObjectInput[4].x + ' X ' + this.pet.position.x);
+		}
+		else if (petObjectInput[4].x < this.pet.position.x)
+		{
+			targetDirX = this.targetPosition.x - travleDirectionValue;
+			console.log (petObjectInput[4].x + ' X ' + this.pet.position.x);
+		};
+
+		//Z direction
+		if (petObjectInput[4].z > this.pet.position.z)
+		{
+			targetDirZ = this.targetPosition.z + travleDirectionValue;
+			console.log (petObjectInput[4].z + ' Z ' + this.pet.position.z);
+		}
+		else if (petObjectInput[4].z < this.pet.position.z)
+		{
+			targetDirZ = this.targetPosition.z - travleDirectionValue;
+			console.log (petObjectInput[4].z + ' Z ' + this.pet.position.z);
+		};
+
+		this.targetPosition = new THREE.Vector3(targetDirX,0,targetDirZ);
+
+		console.log ('checking');
+		//Can check if interested. Goes in a direction towards it. 
+*/
+	};
 };
 
 
