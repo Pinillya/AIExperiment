@@ -91,7 +91,7 @@ Pet.prototype.moving = function(frameCounter)
 Pet.prototype.checkObjects = function(petNumber, itemNumber) 
 {
 	//var petObjectInput = [];
-	//Returns values: smellInRange(0), soundInRange(1), touching(2), this.idNumber(3), position(4)
+	//Returns values: smellInRange(0), soundInRange(1), this.idNumber(2), position(3)
 	var petObjectInput = objects[itemNumber].encounter(this.pet.position);
 	
 	if (petObjectInput[0] == 3)
@@ -104,40 +104,6 @@ Pet.prototype.checkObjects = function(petNumber, itemNumber)
 		this.exploring = false;
 		this.targetPosition = objects[itemNumber].objectSmell(this.pet.position, 2);
 		console.log (this.targetPosition.x + ' 2test ' + this.targetPosition.y + ' ' +this.targetPosition.z);
-/*
-		this.targetPosition = this.pet.position;
-		var travleDirectionValue = 2;
-		var targetDirX = 0;
-		var targetDirZ = 0;
-		//X direction
-		if (petObjectInput[4].x > this.pet.position.x)
-		{
-			targetDirX = this.targetPosition.x + travleDirectionValue;
-			console.log (petObjectInput[4].x + ' X ' + this.pet.position.x);
-		}
-		else if (petObjectInput[4].x < this.pet.position.x)
-		{
-			targetDirX = this.targetPosition.x - travleDirectionValue;
-			console.log (petObjectInput[4].x + ' X ' + this.pet.position.x);
-		};
-
-		//Z direction
-		if (petObjectInput[4].z > this.pet.position.z)
-		{
-			targetDirZ = this.targetPosition.z + travleDirectionValue;
-			console.log (petObjectInput[4].z + ' Z ' + this.pet.position.z);
-		}
-		else if (petObjectInput[4].z < this.pet.position.z)
-		{
-			targetDirZ = this.targetPosition.z - travleDirectionValue;
-			console.log (petObjectInput[4].z + ' Z ' + this.pet.position.z);
-		};
-
-		this.targetPosition = new THREE.Vector3(targetDirX,0,targetDirZ);
-
-		console.log ('checking');
-		//Can check if interested. Goes in a direction towards it. 
-*/
 	}
 	else if (petObjectInput[0] == 1)
 	{
@@ -179,6 +145,10 @@ Pet.prototype.checkObjects = function(petNumber, itemNumber)
 		//Can check if interested. Goes in a direction towards it. 
 */
 	};
+};
+
+Pet.prototype.petInterst = function() 
+{
 };
 
 

@@ -55,10 +55,12 @@ function makeLight ()
 pets = [];
 objects = [];
 var placingObj;
+var pet1;
 function makeAMesh () 
 {
 
 	pets[0] = new Pet('Grapic/Pet/pet.png', 0, 0);
+
 /*
 	for (var i = pets.length-1; i >= 0; i--) 
 	{
