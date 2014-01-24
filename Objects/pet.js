@@ -1,13 +1,21 @@
+//Illy Binfield, 2014, pet.js
+//Pet class. The pet class will be initiated as the pet is created. 
+//the pet class holds all the functiuons used in conection with the pet. 
+
+//Global pet variables that will be turned into pet spesific "this" 
 var petItemsKnown = [];
 var petTargetPos = new THREE.Vector3(0,0,0);
-function Pet (petTexture, xCoordinates, yCoordinates) 
+//Global variables designed to make the pet move. Global so that the value can be changed 
+var hovering = 100;
+var exploring = true;
+function Pet (petTexture, xCoordinates, yCoordinates, zCoordinates) 
 {
-	var petMaterial;
-
 	///Make the pet
+	var petMaterial;
 	var petHight = 20, petWith = 20, petQuality = 1;
+	//Make the pet material. 
 	petMaterial = new THREE.MeshBasicMaterial({ map: THREE.ImageUtils.loadTexture(petTexture), transparent: true});
-
+	//Make the pet 
 	this.pet = new THREE.Mesh(
 		new THREE.PlaneGeometry(
 		petWith,
@@ -17,16 +25,25 @@ function Pet (petTexture, xCoordinates, yCoordinates)
 		petMaterial);
 
 	scene.add(this.pet);
-	this.pet.position.y = yCoordinates;
+	
+	//Place the pet according to the variables given when the pet was initiated in the main script
 	this.pet.position.x = xCoordinates;
-
+	this.pet.position.y = yCoordinates;
+	this.pet.position.z = zCoordinates;
+	
+	//Initiate the targeting system of the pet so it wont come upp blank.
+	//We use the pets xyz coordinates so that the pets target position is the point it starts on(thus it wont move.)
+	petTargetPos = new THREE.Vector3(xCoordinates,yCoordinates,zCoordinates);
     this.targetPosition = petTargetPos;
     this.exploring = exploring;
+
+    //Initiate all the variables as THIS variables, making them unique to the pet in question.
+    this.petItemsKnown = petItemsKnown;
 }
 
-var hovering = 100;
-
-var exploring = true;
+//Function to make the pet move with a target pos, 
+//Finding random target points the pet can walk to if bored
+//Generate hovering on the pet if the pet is flying. 
 Pet.prototype.moving = function(frameCounter) 
 {
 
@@ -42,6 +59,7 @@ Pet.prototype.moving = function(frameCounter)
 		this.targetPosition = new THREE.Vector3(ranNumX,ranNumY,ranNumZ);
 	};	
 
+	//Making the pet hover slightly up and down fr a flying effet. Sin() wave based
 	var hoverDistance = 1;
 	var hoverSpeed = 1.1;
 
@@ -57,6 +75,7 @@ Pet.prototype.moving = function(frameCounter)
 		hovering = 100;
 	};
 
+	//Moving the pet by use of the "is the pet.x lower then pos.x?" system
 	//Walk X
 	if (this.targetPosition.x > this.pet.position.x)
 	{
@@ -66,17 +85,7 @@ Pet.prototype.moving = function(frameCounter)
 	{
 		this.pet.position.x -= 0.1;
 	};
-/*
-	//Walk Y - We probably wont have flying as part of the pet. - will have to dev a jump.
-	if (this.targetPosition.y > this.pet.position.y)
-	{
-		this.pet.position.y += 0.1;
-	}
-	else if (this.targetPosition.y < this.pet.position.y)
-	{
-		this.pet.position.y -= 0.1;
-	};
-*/
+
 	//Walk Z
 	if (this.targetPosition.z > this.pet.position.z)
 	{
@@ -88,9 +97,9 @@ Pet.prototype.moving = function(frameCounter)
 	};
 };
 
+
 Pet.prototype.checkObjects = function(petNumber, itemNumber) 
 {
-	//var petObjectInput = [];
 	//Returns values: smellInRange(0), soundInRange(1), this.idNumber(2), position(3)
 	var petObjectInput = objects[itemNumber].encounter(this.pet.position);
 	
@@ -110,40 +119,6 @@ Pet.prototype.checkObjects = function(petNumber, itemNumber)
 		this.exploring = false;
 		this.targetPosition = objects[itemNumber].objectSmell(this.pet.position, 5);
 		console.log (this.targetPosition.x + ' 1test ' + this.targetPosition.y + ' ' +this.targetPosition.z);
-/*
-		this.targetPosition = this.pet.position;
-		var travleDirectionValue = 2;
-		var targetDirX = 0;
-		var targetDirZ = 0;
-		//X direction
-		if (petObjectInput[4].x > this.pet.position.x)
-		{
-			targetDirX = this.targetPosition.x + travleDirectionValue;
-			console.log (petObjectInput[4].x + ' X ' + this.pet.position.x);
-		}
-		else if (petObjectInput[4].x < this.pet.position.x)
-		{
-			targetDirX = this.targetPosition.x - travleDirectionValue;
-			console.log (petObjectInput[4].x + ' X ' + this.pet.position.x);
-		};
-
-		//Z direction
-		if (petObjectInput[4].z > this.pet.position.z)
-		{
-			targetDirZ = this.targetPosition.z + travleDirectionValue;
-			console.log (petObjectInput[4].z + ' Z ' + this.pet.position.z);
-		}
-		else if (petObjectInput[4].z < this.pet.position.z)
-		{
-			targetDirZ = this.targetPosition.z - travleDirectionValue;
-			console.log (petObjectInput[4].z + ' Z ' + this.pet.position.z);
-		};
-
-		this.targetPosition = new THREE.Vector3(targetDirX,0,targetDirZ);
-
-		console.log ('checking');
-		//Can check if interested. Goes in a direction towards it. 
-*/
 	};
 };
 

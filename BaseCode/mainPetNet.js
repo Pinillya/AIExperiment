@@ -1,3 +1,4 @@
+
 //--------Global variables-----------
 function setup () 
 {
@@ -5,6 +6,7 @@ function setup ()
 	draw();
 }
 
+//Three.js basic setup
 function createScene () 
 {
 	//Basic
@@ -33,12 +35,12 @@ function createScene ()
 
 	camera.position.z = 100;
 	camera.position.y = 20;
-	//camera.rotation.x = -15 * Math.PI / 180;
 
 	makeAMesh();
 	makeLight();
 }
 
+//Three.js basic setup
 function makeLight () 
 {
 	pointLight = new THREE.SpotLight(0xF8D898);
@@ -52,27 +54,90 @@ function makeLight ()
 	scene.add(pointLight);
 }
 
-pets = [];
-objects = [];
-var placingObj;
-var pet1;
+
+pets = []; //pets will be used to create an instance of the Pet class. 
+objects = []; //objects will hold all the objects in the scene by 
+//using the relevant class witch will inherit from the Object class.  
 function makeAMesh () 
 {
+	var placingObj;
 
-	pets[0] = new Pet('Grapic/Pet/pet.png', 0, 0);
+	//Objects work by the following variables. 
+	//objects[X] = new Object(
+	//position, texture, idNumber, 
+	//sizeX, sizeY, smellRadius, soundRadius,
+	//isStatic, hasSmell, hasSound, hasAnimation, initialValue);
 
-/*
-	for (var i = pets.length-1; i >= 0; i--) 
+	var parametersObject =
 	{
-		targetPos[i] = new THREE.Vector3(10,10,0);
-	}*/
+		"position" : new THREE.Vector3(0,0,-10),
+		"texture"  : 'Grapic/Ouside/bg.png',
+		"nameId"   : 'bg01',
+		"sizeX"    : 200,
+		"sizeY"    : 150,
+		"smellRad" : 0,
+		"soundRad" : 0,
+		"isStatic" : true,
+		"hasSmell" : false,
+		"hasSound" : false,
+		"hasAni"   : false,
+		"initValue": 0
+	};
+/*
+	var parametersObject =
+	{
+		//"position" : new THREE.Vector3(0,0,-10);
+		//"texture"  : 'Grapic/Ouside/bg.png';
+		//"nameId"   : 'bg01';
+		2    : 200
+	};*/
 
+	//Background
+	placingObj = new THREE.Vector3(0,0,-10);
+	objects[0] = new Object(parametersObject);
+
+	//Making pets
+	pets[0] = new Pet('Grapic/Pet/pet.png', 0, 0, 0);
+	pets[1] = new Pet('Grapic/Pet/pet.png', -50, 0, -20);
+
+	var parametersObject =
+	{
+		"position" : new THREE.Vector3(19,0,10),
+		"texture"  : 'Grapic/Inside/food.png',
+		"nameId"   : 'food01',
+		"sizeX"    : 10,
+		"sizeY"    : 10,
+		"smellRad" : 20,
+		"soundRad" : 0,
+		"isStatic" : true,
+		"hasSmell" : true,
+		"hasSound" : false,
+		"hasAni"   : false,
+		"initValue": 60
+	};
+
+	//Making food object
+	//placingObj = new THREE.Vector3(19,0,10);
+	objects[1] = new Object(parametersObject);
+/*
+	var o = new Object( data );
+
+	this.idNumber = data.id;
+	this.position = data.position;
+*/
+/*
+	//Background
 	placingObj = new THREE.Vector3(0,0,-10);
 	objects[0] = new Object(
 	placingObj, 'Grapic/Ouside/bg.png', 'bg01', 
 	200, 150, 0, 0,
 	true, false, false, false, 0);
 
+	//Making pets
+	pets[0] = new Pet('Grapic/Pet/pet.png', 0, 0, 0);
+	pets[1] = new Pet('Grapic/Pet/pet.png', -50, 0, -20);
+
+	//Making food object
 	placingObj = new THREE.Vector3(19,0,10);
 	objects[1] = new Object(
 	placingObj, 'Grapic/Inside/food.png', 'food01', 
@@ -85,12 +150,10 @@ function makeAMesh ()
 	10, 10, 10, 0,
 	true, true, false, false, 60);
 
-/*
-	objects[X] = new Object(
-	position, texture, idNumber, 
-	sizeX, sizeY, smellRadius, soundRadius,
-	isStatic, hasSmell, hasSoud, hasAnimation,initialValue
-	);
+	placingObj = new THREE.Vector3(-19,0,-20);
+	objects[3] = new Object(
+	placingObj, 'Grapic/Inside/food.png', 'food01', 
+	10, 10, 10, 0,
+	true, true, false, false, 60);
 */
-
 }

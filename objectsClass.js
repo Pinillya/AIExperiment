@@ -1,85 +1,77 @@
-function Object (position, texture, idNumber, sizeX, sizeY, smellRadius, soundRadius, isStatic, hasSmell, hasSound, hasAnimation, initialValue) 
+//Illy Binfield, 2014, objectClass.js
+//The object class will be used as a baseclass for all the objects on the scene. 
+// the objects inherite from this class all the basic attributes like small, sound and so on. 
+function Object (parimiters) 
 {
-	this.idNumber = idNumber;
-	this.position = position;
-	this.texture = texture;
+	//Different variables all the objects will have
+	//We make them local to the spesific item by using THIS.X = X;
+	this.idNumber = parimiters.nameId;
+	this.position = parimiters.position;
+	this.texture = parimiters.texture;
 
-	this.hasSmell = hasSmell;
-	this.smellRadius = smellRadius;
-	this.hasSound = hasSound;
-	this.soundRadius = soundRadius;
+	this.hasSmell = parimiters.hasSmell;
+	this.smellRadius = parimiters.smellRad;
+	this.hasSound = parimiters.hasSound;
+	this.soundRadius = parimiters.soundRad;
 
-	this.isStatic = isStatic;
-	this.hasAnimation = hasAnimation;
-	this.initialValue = initialValue;
+	this.isStatic = parimiters.isStatic;
+	this.hasAnimation = parimiters.hasAni;
+	this.initialValue = parimiters.initValue;
 
-	if (hasAnimation)
+	if (this.hasAnimation)
 	{
 		//this.meshAnimation();
 	}
-	if (!isStatic)
+	if (!this.isStatic)
 	{
 		//this.physics();
 	}
 
-//Texture:
-	var planeQuality = 20;
+    //Texture:
 	var planeMaterial = new THREE.MeshBasicMaterial({ map: THREE.ImageUtils.loadTexture(this.texture), transparent: true});
 
 	this.plane = new THREE.Mesh(
 		new THREE.PlaneGeometry(
-		sizeX,
-		sizeY,
-		planeQuality,
-		planeQuality),
+		parimiters.sizeX,
+		parimiters.sizeY),
 		planeMaterial);
 
 	scene.add(this.plane);
-	this.plane.position = position;
+	this.plane.position = this.position;
 }
 
 //Generates a random point towards the target object
 Object.prototype.objectSmell = function(petPos, errorArea) 
 {
-	var tempPosXHolder = 9.0;
-	var tempPosYHolder = 0.0;
-	var tempPosZHolder = 9.0;
-	var objToPetTargetPos= new THREE.Vector3(0,0,0);
+	var objToPetTargetPos = new THREE.Vector3(0,0,0);
 
-//Pos X
+    //Pos X
 	if (petPos.x > this.position.x)
 	{
-		tempPosXHolder = this.position.x + THREE.Math.random16() * errorArea;
+		//tempPosXHolder = this.position.x + THREE.Math.random16() * errorArea;
+		objToPetTargetPos.x = this.position.x + THREE.Math.random16() * errorArea;
 	}
 	else if (petPos.x < this.position.x)
 	{
-		tempPosXHolder = this.position.x - errorArea + THREE.Math.random16() * errorArea;
+		//tempPosXHolder = this.position.x - errorArea + THREE.Math.random16() * errorArea;
+		objToPetTargetPos.x = this.position.x - errorArea + THREE.Math.random16() * errorArea;
 	};
-/*
-//Pos Y we wont have flying as a part of the pet. This will have to be a guide to where the pet should jump to if anything
-	if (petPos.y > this.position.y)
-	{
-		tempPosZHolder = this.position.y + THREE.Math.random16() * errorArea;
-	}
-	else if (petPos.y < this.position.y)
-	{
-		tempPosZHolder = this.position.y - errorArea - THREE.Math.random16() * errorArea;
-	};*/
 
-//Pos Z
+    //Pos Z
 	if (petPos.z > this.position.z)
 	{
-		tempPosZHolder = this.position.z + THREE.Math.random16() * errorArea;
+		//tempPosZHolder = this.position.z + THREE.Math.random16() * errorArea;
+		objToPetTargetPos.z = this.position.z + THREE.Math.random16() * errorArea;
 	}
 	else if (petPos.z < this.position.z)
 	{
-		tempPosZHolder = this.position.z - errorArea + THREE.Math.random16() * errorArea;
+		//tempPosZHolder = this.position.z - errorArea + THREE.Math.random16() * errorArea;
+		objToPetTargetPos.z = this.position.z - errorArea + THREE.Math.random16() * errorArea;
 	};
 
-//Return
-	console.log (tempPosXHolder + ' objToPetTargetPos.x');
-	this.objToPetTargetPos = new THREE.Vector3(tempPosXHolder,tempPosYHolder,tempPosZHolder);
-	return this.objToPetTargetPos;
+    //Return
+	//this.objToPetTargetPos = new THREE.Vector3(tempPosXHolder,tempPosYHolder,tempPosZHolder);
+	return objToPetTargetPos;
 };
 
 Object.prototype.objectSound = function(petPos) 
@@ -137,7 +129,7 @@ Object.prototype.encounter = function(petPos) //name is Encountering instead?
 
 
 
-	return [smellInRange, soundInRange, this.idNumber, this.position];
+	return [smellInRange, soundInRange, this.idNumber];
 	//return this.objectSmell(petPos), this.objectSound(petPos), this.idNumber;
 };
 
