@@ -83,36 +83,63 @@ Object.prototype.meshAnimation = function()
 	console.log ("animation");
 };
 
+
 //encounters the object, returns frue/false if item is in smelling or sound range
 //returns the item "number"
-Object.prototype.encounter = function(petPos) //name is Encountering instead? 
+//The different stages of finding an object based on the likelyhood of finding
+//the object using that sense. 
+//If the pet is touching the object,- dont check for the object anymore.
+//If the pet can see the object there is no use for the smell check or the sound check.
+//As it is easier to locate the origo of a sound, this will be checked by the pet before smell. 
+var touching = false;
+Object.prototype.encounter = function(petPos, itemNumber) //name is Encountering instead? 
 {
 	var distanceToPet = this.plane.position.distanceTo(petPos);
-	var soundInRange = 0, smellInRange = 0, touching = 0;
-
-	//This probably has to be inside of the two above. It should also be a pet.y vs object.y+hight
-	if (distanceToPet < 2)
-	{
-		smellInRange = 3;
-		console.log ('touching');
-
-		//Might have a thing here stopping the pet from being able to walk through the object. 
+	var soundInRange = 0, smellInRange = 0, seesObject = false;
+	
+	if (!touching){
+		if (distanceToPet < 2)
+		{
+			smellInRange = 3;
+			console.log ('touching');
+			//Might have a thing here stopping the pet from being able to walk through the object. 
+		}
+		else if (seesObject)
+		{
+			//Will later be used to check if pet seems object. 
+		}
+		else if (this.hasSound)
+		{
+			soundInRange = objects[itemNumber].distanceCheck(this.soundRadius, distanceToPet);
+		}
+		else if (this.hasSmell)
+		{
+			smellInRange = objects[itemNumber].distanceCheck(this.smellRadius, distanceToPet);
+		};
 	}
 
-	else if (distanceToPet < this.smellRadius*1.2)
+	return [smellInRange, soundInRange, this.idNumber];
+};
+
+Object.prototype.distanceCheck = function(radiusCheck, distanceToPet)
+{
+	//This probably has to be inside of the two above. It should also be a pet.y vs object.y+hight
+	if (distanceToPet < radiusCheck*1.2)
 	{
-		if (distanceToPet < this.smellRadius)
+		if (distanceToPet < radiusCheck)
 		{
-			smellInRange = 1;
+			//smellInRange = 1;
+			return 1;
 
 			//We check if the pet is really close
-			if (distanceToPet < this.smellRadius/2)
+			if (distanceToPet < radiusCheck/2)
 			{
-				smellInRange = 2;
+				//smellInRange = 2;
+				return 2;
 			}
 		}
-	}
-
+	};
+/*
 	else if (distanceToPet < this.soundRadius*1.2)
 	{
 		if (distanceToPet < this.soundRadius)
@@ -125,15 +152,10 @@ Object.prototype.encounter = function(petPos) //name is Encountering instead?
 				smellInRange = 2;
 			}
 		}
-	};
+	};*/
+}
 
-
-
-	return [smellInRange, soundInRange, this.idNumber];
-	//return this.objectSmell(petPos), this.objectSound(petPos), this.idNumber;
-};
-
-Object.prototype.interact = function(petPos) //name is Encountering instead? 
+Object.prototype.interact = function(petPos)
 {
 
 	if (this.hasSound)

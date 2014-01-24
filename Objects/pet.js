@@ -97,11 +97,15 @@ Pet.prototype.moving = function(frameCounter)
 	};
 };
 
-
+//Pet X checks objectX as initiated in the main script in "makeAMesh"
+//We initiate the items "encounter" to gain insight into the items distance to the pet
+//and weather or not the pet smells/hears or hits the target.
+//The item will return values needed for the pet to assess its interest in the item, and if
+//the pet finds the item interested, the pet will call the items relevant locater to find the item. (smell/sound function)
 Pet.prototype.checkObjects = function(petNumber, itemNumber) 
 {
-	//Returns values: smellInRange(0), soundInRange(1), this.idNumber(2), position(3)
-	var petObjectInput = objects[itemNumber].encounter(this.pet.position);
+	//Returns values: smellInRange(0), soundInRange(1), this.idNumber(2)
+	var petObjectInput = objects[itemNumber].encounter(this.pet.position, itemNumber);
 	
 	if (petObjectInput[0] == 3)
 	{
