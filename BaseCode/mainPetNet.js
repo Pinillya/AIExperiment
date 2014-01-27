@@ -60,21 +60,14 @@ objects = []; //objects will hold all the objects in the scene by
 //using the relevant class witch will inherit from the Object class.  
 function makeAMesh () 
 {
-	var placingObj;
-
-	//Objects work by the following variables. 
-	//objects[X] = new Object(
-	//position, texture, idNumber, 
-	//sizeX, sizeY, smellRadius, soundRadius,
-	//isStatic, hasSmell, hasSound, hasAnimation, initialValue);
-
+	//Background
 	var parametersObject =
 	{
-		"position" : new THREE.Vector3(0,0,-10),
+		"position" : new THREE.Vector3(0,0,-40),
 		"texture"  : 'Grapic/Ouside/bg.png',
 		"nameId"   : 'bg01',
-		"sizeX"    : 200,
-		"sizeY"    : 150,
+		"sizeX"    : 300,
+		"sizeY"    : 200,
 		"smellRad" : 0,
 		"soundRad" : 0,
 		"isStatic" : true,
@@ -83,23 +76,13 @@ function makeAMesh ()
 		"hasAni"   : false,
 		"initValue": 0
 	};
-/*
-	var parametersObject =
-	{
-		//"position" : new THREE.Vector3(0,0,-10);
-		//"texture"  : 'Grapic/Ouside/bg.png';
-		//"nameId"   : 'bg01';
-		2    : 200
-	};*/
-
-	//Background
-	placingObj = new THREE.Vector3(0,0,-10);
 	objects[0] = new Object(parametersObject);
 
 	//Making pets
 	pets[0] = new Pet('Grapic/Pet/pet.png', 0, 0, 0);
 	pets[1] = new Pet('Grapic/Pet/pet.png', -50, 0, -20);
 
+	//Making food object
 	var parametersObject =
 	{
 		"position" : new THREE.Vector3(19,0,10),
@@ -115,45 +98,9 @@ function makeAMesh ()
 		"hasAni"   : false,
 		"initValue": 60
 	};
-
-	//Making food object
-	//placingObj = new THREE.Vector3(19,0,10);
 	objects[1] = new Object(parametersObject);
-/*
-	var o = new Object( data );
-
-	this.idNumber = data.id;
-	this.position = data.position;
-*/
-/*
-	//Background
-	placingObj = new THREE.Vector3(0,0,-10);
-	objects[0] = new Object(
-	placingObj, 'Grapic/Ouside/bg.png', 'bg01', 
-	200, 150, 0, 0,
-	true, false, false, false, 0);
-
-	//Making pets
-	pets[0] = new Pet('Grapic/Pet/pet.png', 0, 0, 0);
-	pets[1] = new Pet('Grapic/Pet/pet.png', -50, 0, -20);
-
-	//Making food object
-	placingObj = new THREE.Vector3(19,0,10);
-	objects[1] = new Object(
-	placingObj, 'Grapic/Inside/food.png', 'food01', 
-	10, 10, 10, 0,
-	true, true, false, false, 60);
-
-	placingObj = new THREE.Vector3(-19,0,20);
-	objects[2] = new Object(
-	placingObj, 'Grapic/Inside/food.png', 'food01', 
-	10, 10, 10, 0,
-	true, true, false, false, 60);
-
-	placingObj = new THREE.Vector3(-19,0,-20);
-	objects[3] = new Object(
-	placingObj, 'Grapic/Inside/food.png', 'food01', 
-	10, 10, 10, 0,
-	true, true, false, false, 60);
-*/
+	parametersObject.position = new THREE.Vector3(-19,0,20),
+	objects[2] = new Object(parametersObject);
+	parametersObject.position = new THREE.Vector3(0,0,40),
+	objects[2] = new Object(parametersObject);
 }

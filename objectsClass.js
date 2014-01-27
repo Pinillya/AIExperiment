@@ -41,41 +41,39 @@ function Object (parimiters)
 }
 
 //Generates a random point towards the target object
-Object.prototype.objectSmell = function(petPos, errorArea) 
+Object.prototype.objectSmellSound = function(petPos, areaDevider) 
 {
 	var objToPetTargetPos = new THREE.Vector3(0,0,0);
+
+	if (this.hasSound)
+	{
+		errorArea = this.soundRadius/areaDevider;
+	}
+	else if (this.hasSmell)
+	{
+		errorArea = this.smellRadius/areaDevider;
+	};
 
     //Pos X
 	if (petPos.x > this.position.x)
 	{
-		//tempPosXHolder = this.position.x + THREE.Math.random16() * errorArea;
 		objToPetTargetPos.x = this.position.x + THREE.Math.random16() * errorArea;
 	}
 	else if (petPos.x < this.position.x)
 	{
-		//tempPosXHolder = this.position.x - errorArea + THREE.Math.random16() * errorArea;
 		objToPetTargetPos.x = this.position.x - errorArea + THREE.Math.random16() * errorArea;
 	};
 
     //Pos Z
 	if (petPos.z > this.position.z)
 	{
-		//tempPosZHolder = this.position.z + THREE.Math.random16() * errorArea;
 		objToPetTargetPos.z = this.position.z + THREE.Math.random16() * errorArea;
 	}
 	else if (petPos.z < this.position.z)
 	{
-		//tempPosZHolder = this.position.z - errorArea + THREE.Math.random16() * errorArea;
 		objToPetTargetPos.z = this.position.z - errorArea + THREE.Math.random16() * errorArea;
 	};
-
-    //Return
-	//this.objToPetTargetPos = new THREE.Vector3(tempPosXHolder,tempPosYHolder,tempPosZHolder);
 	return objToPetTargetPos;
-};
-
-Object.prototype.objectSound = function(petPos) 
-{
 };
 
 Object.prototype.meshAnimation = function() 
@@ -100,13 +98,8 @@ Object.prototype.encounter = function(petPos, itemNumber) //name is Encountering
 	if (!touching){
 		if (distanceToPet < 2)
 		{
-			smellInRange = 3;
-			console.log ('touching');
-			//Might have a thing here stopping the pet from being able to walk through the object. 
-		}
-		else if (seesObject)
-		{
-			//Will later be used to check if pet seems object. 
+			touching = true;
+			console.log("touching = true");
 		}
 		else if (this.hasSound)
 		{
@@ -118,79 +111,47 @@ Object.prototype.encounter = function(petPos, itemNumber) //name is Encountering
 		};
 	}
 
-	return [smellInRange, soundInRange, this.idNumber];
+	return [soundInRange, smellInRange, touching, this.idNumber];
 };
 
+//Checks distance to target based on the relevant range to check against. 
 Object.prototype.distanceCheck = function(radiusCheck, distanceToPet)
 {
-	//This probably has to be inside of the two above. It should also be a pet.y vs object.y+hight
-	if (distanceToPet < radiusCheck*1.2)
+	if (distanceToPet < radiusCheck*1.3)
 	{
-		if (distanceToPet < radiusCheck)
+		if (distanceToPet < radiusCheck/2)
 		{
-			//smellInRange = 1;
+			return 2;
+		}
+		else if (distanceToPet < radiusCheck)
+		{
 			return 1;
-
-			//We check if the pet is really close
-			if (distanceToPet < radiusCheck/2)
-			{
-				//smellInRange = 2;
-				return 2;
-			}
-		}
+		};
 	};
-/*
-	else if (distanceToPet < this.soundRadius*1.2)
-	{
-		if (distanceToPet < this.soundRadius)
-		{
-			smellInRange = 1;
-
-			//We check if the pet is really close
-			if (distanceToPet < this.soundRadius/2)
-			{
-				smellInRange = 2;
-			}
-		}
-	};*/
 }
 
-Object.prototype.interact = function(petPos)
-{
-
-	if (this.hasSound)
+/*
+	Object.prototype.visionCheck = function(petPos)
 	{
-		this.objectSound(petPos);
-	}
-	if (this.hasSmell)
+	};
+
+	Object.prototype.interact = function(petPos)
 	{
-		this.objectSmell(petPos);
-	}
-	//console.log (petPos);
+	};
 
-	//if (pet officially encounters the object)
-	//Check the encounter list of the pet up agains the objects personal number
-	// if the pet has not saved the personal number in the "known" array:
-		// Sends function to petFunctionArray if a function should be sent(if it is int he propper range and all);
-		// Saves a position in the pets expectations/asosiations array.
-		// run the function sent. 
-		// 
-		//All this has to be done in a return array so that the pet that encounters the object
-		//can collect the data on its own. 
-};
+	Object.prototype.sendNewPetTarget = function() 
+	{
+		console.log ("sendNewPetTarget");
+	};
 
-Object.prototype.sendNewPetTarget = function() 
-{
-	console.log ("sendNewPetTarget");
-};
+	Object.prototype.functionSender = function() 
+	{
+		console.log ("functionSender");
+	};
 
-Object.prototype.functionSender = function() 
-{
-	console.log ("functionSender");
-};
-
-Object.prototype.physics = function() 
-{
-	console.log ("physics");
-};
+	Object.prototype.physics = function() 
+	{
+		console.log ("physics");
+	};
+*/
 

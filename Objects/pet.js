@@ -46,7 +46,6 @@ function Pet (petTexture, xCoordinates, yCoordinates, zCoordinates)
 //Generate hovering on the pet if the pet is flying. 
 Pet.prototype.moving = function(frameCounter) 
 {
-
     //The pet finds random positions to walk to if it wants to explore
 	if (frameCounter == 50 && this.exploring) 
 	{
@@ -104,25 +103,24 @@ Pet.prototype.moving = function(frameCounter)
 //the pet finds the item interested, the pet will call the items relevant locater to find the item. (smell/sound function)
 Pet.prototype.checkObjects = function(petNumber, itemNumber) 
 {
-	//Returns values: smellInRange(0), soundInRange(1), this.idNumber(2)
+	//Returns values: smellInRange(0), soundInRange(1), touching(2), nameID(3)
 	var petObjectInput = objects[itemNumber].encounter(this.pet.position, itemNumber);
 	
-	if (petObjectInput[0] == 3)
+	if (petObjectInput[2])
 	{
 		//Run touching code
 	}
-
-	else if (petObjectInput[0] == 2)
+	else if (petObjectInput[0] == 2 || petObjectInput[0] == 1)
 	{
 		this.exploring = false;
-		this.targetPosition = objects[itemNumber].objectSmell(this.pet.position, 2);
-		console.log (this.targetPosition.x + ' 2test ' + this.targetPosition.y + ' ' +this.targetPosition.z);
+		this.targetPosition = objects[itemNumber].objectSmellSound(this.pet.position, petObjectInput[0]+1);
+		console.log (petObjectInput[0]);
 	}
-	else if (petObjectInput[0] == 1)
+	else if (petObjectInput[1] == 2 || petObjectInput[1] == 1)
 	{
 		this.exploring = false;
-		this.targetPosition = objects[itemNumber].objectSmell(this.pet.position, 5);
-		console.log (this.targetPosition.x + ' 1test ' + this.targetPosition.y + ' ' +this.targetPosition.z);
+		this.targetPosition = objects[itemNumber].objectSmellSound(this.pet.position, petObjectInput[1]+1);
+		console.log (petObjectInput[1]);
 	};
 };
 
