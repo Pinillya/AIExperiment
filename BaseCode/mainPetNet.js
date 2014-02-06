@@ -103,4 +103,20 @@ function makeAMesh ()
 	objects[2] = new Object(parametersObject);
 	parametersObject.position = new THREE.Vector3(0,0,40),
 	objects[2] = new Object(parametersObject);
+
+
+
+    //Texture:
+	var planeMaterial = new THREE.MeshBasicMaterial({ map: THREE.ImageUtils.loadTexture('Grapic/Inside/food.png'), transparent: true});
+
+	plane = new THREE.Mesh(
+		new THREE.PlaneGeometry(
+		20,
+		20),
+		planeMaterial);
+
+	scene.add(plane);
+	plane.position = new THREE.Vector3(30,0,10);
+
+
 }
