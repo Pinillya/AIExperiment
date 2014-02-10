@@ -72,6 +72,9 @@ function makeAMesh ()
 
     //Mesh On the scene
 	pet = new Pet();
-	objects[0] = new Food();
-	objects[1] = new Toy();
+	pet.moods();
+	var ObjPos = new THREE.Vector3(30,0,0);
+	objects[0] = new Food(ObjPos);
+	ObjPos = new THREE.Vector3(-30,0,0);
+	objects[1] = new Toy(ObjPos);
 }

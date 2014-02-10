@@ -11,14 +11,15 @@ function draw ()
     }
     lastTime = timeNow;
 	
-	movePets();
+	movePet();
+	petMoodControl();
 
 	renderer.render( scene, camera );
 	requestAnimationFrame(draw);
 }
 
 var frameCounter = 0;
-function movePets () 
+function movePet () 
 {	
 	//framecounter is used to regulate how often the pet checks for objects
 	//So it wont do it too often.
@@ -36,11 +37,16 @@ function movePets ()
 	{
 		for (var i = objects.length - 1; i >= 0; i--) 
 		{
-			//pet.checkObjects(i, j);
+			pet.smellHearObject(i);
 		};
 	};
 
 	//Moves the pet in the pets own moving function, framecount will be
 	//used to make random positions for the pet.
 	pet.moving(frameCounter);
+}
+
+function petMoodControl () 
+{
+	//moodsReading();
 }

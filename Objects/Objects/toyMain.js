@@ -1,6 +1,6 @@
-function Toy ()
+function Toy (position)
 {    
-    this.position  = new THREE.Vector3(-30,0,0);
+    this.position  = position;
     this.texture   = 'Grapic/Inside/mouse.png';
     this.nameId    = 'toy';
     this.sizeX     = 100;

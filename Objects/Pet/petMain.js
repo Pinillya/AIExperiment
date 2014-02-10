@@ -30,14 +30,52 @@ function Pet ()
     } 
 }
 
-Pet.prototype.reciveValues = function()
+//***************************************************************************\\
+//'''''''''''''''''''''''''''''''Pet Encounter'''''''''''''''''''''''''''''''\\
+//***************************************************************************\\
+
+Pet.prototype.smellHearObject = function(itemNumber)
 {
+	
+	if(itemNumber === undefined || itemNumber === 0)
+	{
+		return;
+	}
+
+	//petObjectInput =  smellInRange(0), soundInRange(1), touching(2), nameID(3)
+	var petObjectInput = objects[itemNumber].encounter(pet.position, itemNumber);
+
+	//Touching
+	if (petObjectInput[2])
+	{
+		console.log (petObjectInput[0]);
+		console.log (petObjectInput[3] + " 2");
+	}
+	//Smells
+	else if (petObjectInput[0] == 2 || petObjectInput[0] == 1)
+	{
+		console.log (petObjectInput[3] + " 0");
+		//pet.checkInterest(itemNumber, petObjectInput[3], petObjectInput[0]+1);
+	}
+	//Hears
+	else if (petObjectInput[1] == 2 || petObjectInput[1] == 1)
+	{
+		console.log (petObjectInput[3] + " 1");
+		//pets[petNumber].petBehaviour(itemNumber, petObjectInput[3], petObjectInput[1]+1, petNumber);
+	};
+
+    //console.log ("Something);"); 
+};
+
+Pet.prototype.checkInterest = function(itemNumber)
+{  
 };
 
 
-//'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''\\
+
+//***************************************************************************\\
 //'''''''''''''''''''''''''''''''Pet Movement''''''''''''''''''''''''''''''''\\
-//'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''\\
+//***************************************************************************\\
 
 //Function to make the pet move with a target pos,
 //Finding random target points the pet can walk to if bored
@@ -49,7 +87,6 @@ Pet.prototype.moving = function(frameCounter)
 	    //The pet finds random positions to walk to if it wants to explore
 		if (frameCounter == 50 && petsCurrentAction  == 'explore')
 		{
-			console.log ("Something);");
 			//console.log(this.pet.position.x + " is exploring! " + this.pet.position.z);
 			var ranNumX = 100, ranNumZ = 0, ranNumY = 0;
 
@@ -83,9 +120,9 @@ Pet.prototype.moving = function(frameCounter)
 };
 
 
-//'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''\\
+//***************************************************************************\\
 //''''''''''''''''''''''''''''''''Pet Moods''''''''''''''''''''''''''''''''''\\
-//'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''\\
+//***************************************************************************\\
 
 
 //Basic Pet Mind:
@@ -95,10 +132,141 @@ Pet.prototype.moodsAdjusters = function()
 	{
 		petsCurrentMood.y -= 1;
 		petNeeds.sleepLevel = 0;
-		pets[0].moods();
+		pet.moods();
 		console.log (petsCurrentMood.y + " petsCurrentMood.y " );
 	} else {
 		petNeeds.sleepLevel *= petNeeds.sleepAdjuster;
+	};
+
+	//If just woken up -> bad mood
+	//Altering moods dependant on the day and
+};
+
+Pet.prototype.moodsReading = function()
+{
+    petActionsBool.eat           = false;
+    petActionsBool.sleep         = false;
+    petActionsBool.washSelf      = false;
+    petActionsBool.fight         = false;
+    petActionsBool.runAway       = false;
+    petActionsBool.threaten      = false;
+    petActionsBool.talkTo        = false;
+    petActionsBool.washOther     = false;
+    petActionsBool.grabb         = false;
+    petActionsBool.push          = false;
+    petActionsBool.exlore        = false;
+    petActionsBool.investigating = false;
+    petActionsBool.jumpOnToppOff = false;
+
+	if (petMoodsBool.surprised)
+	{
+		petsCurrentMood.y += petMoodAdjusters[1];
+	}
+	if (petMoodsBool.disapointed)
+	{
+		petsCurrentMood.x += petMoodAdjusters[0];
+		petsCurrentMood.y += petMoodAdjusters[1];
+	}
+
+	if (petNeeds.sleepLevel < 10)
+	{
+		//Go sleep! 
+		petsCurrentAction = 'sleep';
+	}
+	else if (petNeeds.hungerLevel < 30)
+	{
+		//If pet knows of a food place
+		//Pettarget location = food location
+
+		//If not:
+		petsCurrentAction = 'explore';
+	};
+
+	if (petMoodsBool.scared  || petMoodsBool.depressed)
+	{
+		if (petMoodsBool.scared)
+		{
+			petActionsBool.threaten      = true;
+            petActionsBool.push      	 = true;
+            petActionsBool.runAway       = true;
+		}
+		else if (petMoodsBool.depressed)
+		{
+		    petActionsBool.sleep         = true;
+		    petActionsBool.washSelf      = true;
+		    petActionsBool.threaten      = true;
+		    petActionsBool.eat           = true;
+			//Will have to increase mood in some way.....
+		};
+	}
+	else if (petMoodsBool.sosial || petMoodsBool.relaxed || petMoodsBool.playfull)
+	{
+		if (petMoodsBool.sosial)
+		{
+            petActionsBool.talkTo        = true;
+            petActionsBool.washOther     = true;
+			
+			if (petMoodsBool.playfull)
+			{
+	            petActionsBool.fight         = true;
+	            petActionsBool.runAway       = true;
+	            petActionsBool.threaten      = true;
+	            petActionsBool.grabb         = true;
+	            petActionsBool.push          = true;
+	            petActionsBool.jumpOnToppOff = true;
+			}
+		}
+		else if (petMoodsBool.relaxed)
+		{
+            petActionsBool.sleep         = true;
+            petActionsBool.washSelf      = true;
+            petActionsBool.talkTo        = true;
+            petActionsBool.washOther     = true;
+		};
+	}
+	else if (petMoodsBool.agressive || petMoodsBool.uncomfertable)
+	{
+		if (petMoodsBool.uncomfertable)
+		{
+			petActionsBool.eat           = true;
+            petActionsBool.runAway       = true;
+            petActionsBool.threaten      = true;
+            petActionsBool.talkTo        = true;
+            petActionsBool.exlore        = true;
+ 
+			if (petMoodsBool.agressive)
+			{
+	            petActionsBool.fight         = true;
+	            petActionsBool.threaten      = true;
+	            petActionsBool.grabb         = true;
+	            petActionsBool.push          = true;
+	            petActionsBool.jumpOnToppOff = true;
+			}			
+		}
+	}
+	else if (petMoodsBool.curious || petMoodsBool.sad)
+	{
+		if (petMoodsBool.curious)
+		{
+			petActionsBool.eat           = true;
+            petActionsBool.sleep         = true;
+            petActionsBool.fight         = true;
+            petActionsBool.threaten      = true;
+            petActionsBool.talkTo        = true;
+            petActionsBool.washOther     = true;
+            petActionsBool.grabb         = true;
+            petActionsBool.push          = true;
+            petActionsBool.jumpOnToppOff = true;
+		}
+		else if (petMoodsBool.sad)
+		{
+			petActionsBool.eat           = true;
+            petActionsBool.sleep         = true;
+            petActionsBool.washSelf      = true;
+            petActionsBool.threaten      = true;
+            petActionsBool.talkTo        = true;
+            petActionsBool.washOther     = true;
+		};
 	};
 };
 
@@ -167,6 +335,14 @@ Pet.prototype.moods = function()
 			console.log (petMoodsBool.playfull + "petMoodsBool.playfull")
 		}
 	};
+	if (petsCurrentMood.x > petMoods.sosial[0])
+	{
+		if(petsCurrentMood.y > petMoods.sosial[1])
+		{
+			petMoodsBool.sosial  = true;
+			console.log (petMoodsBool.sosial + "petMoodsBool.sosial")
+		}
+	};
 	//Final good check
 	if (petsCurrentMood.x > petMoods.relaxed[0])
 	{
@@ -178,9 +354,9 @@ Pet.prototype.moods = function()
 	};
 };
 
-//'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''\\
+//***************************************************************************\\
 //''''''''''''''''''''''''''''''''Pet Globals''''''''''''''''''''''''''''''''\\
-//'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''\\
+//***************************************************************************\\
 
 //The position the pet is currently walking towards
 var petTargetPos = new THREE.Vector3(0,0,0);
@@ -218,6 +394,7 @@ var petMoods =
     "uncomfertable"     : [-3,-2],
     "curious"           : [-3,-2],
     "playfull"          : [0,2],
+    "sosial"            : [-8,-2],
     "relaxed"           : [0,0],
     "sad"               : [0,0],
     "depressed"         : [-3,-2]
@@ -232,13 +409,15 @@ var petMoodsBool =
     "playfull"          : false,
     "relaxed"           : false,
     "sad"               : false,
-    "depressed"         : false
+    "depressed"         : false,
+    "surprised"         : false,
+    "disapointed"       : false
 };
 
 //Depending on the pets different moods, it will have different actions it wants to do.
 var petActions =
 {
-    "eat"            : 'food',
+    "eat"            : 'eat',
     "sleep"          : 'sleep',
     "washSelf"       : 'washSelf',
     "fight"          : 'fight',
@@ -249,5 +428,23 @@ var petActions =
     "grabb"          : 'grabb',
     "push"           : 'push',
     "exlore"         : 'exlore',
+    "investigating"  : 'investigating',
     "jumpOnToppOff"  : 'jumpOn'
+};
+
+var petActionsBool =
+{
+    "eat"            : false,
+    "sleep"          : false,
+    "washSelf"       : false,
+    "fight"          : false,
+    "runAway"        : false,
+    "threaten"       : false,
+    "talkTo"         : false,
+    "washOther"      : false,
+    "grabb"          : false,
+    "push"           : false,
+    "exlore"         : false,
+    "investigating"  : false,
+    "jumpOnToppOff"  : false
 };

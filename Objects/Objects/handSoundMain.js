@@ -1,6 +1,6 @@
-function Toy ()
+function Toy (position)
 {    
-    this.position  = new THREE.Vector3(-30,0,0); //Mouse press position
+    this.position  = position; //Mouse press position
     this.texture   = null;
     this.nameId    = 'handSound';
     this.sizeX     = 2;
