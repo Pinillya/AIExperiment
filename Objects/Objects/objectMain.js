@@ -29,7 +29,7 @@ function BaseObject ()
 //If the pet can see the object there is no use for the smell check or the sound check.
 //As it is easier to locate the origo of a sound, this will be checked by the pet before smell.
 BaseObject.prototype.encounter = function(petPos, itemNumber) //name is Encountering instead?
-{
+{ 
     var soundInRange = 0, smellInRange = 0, seesObject = false;
     var distanceToPet = this.plane.position.distanceTo(petPos);
 
@@ -70,13 +70,11 @@ BaseObject.prototype.distanceCheck = function(radiusCheck, distanceToPet)
     {
         if (distanceToPet < radiusCheck/2)
         {
-            return 2;
-            
+            return 2;            
         }
         else if (distanceToPet < radiusCheck)
         {
             return 1;
-            console.log ("Something);"); 
         };
     };
     

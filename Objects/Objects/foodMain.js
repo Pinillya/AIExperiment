@@ -6,8 +6,8 @@ function Food (position)
     this.nameId    = 'food';
     this.sizeX     = 100;
     this.sizeY     = 100;
-    this.smellRad  = 300;
-    this.soundRad  = 0;
+    this.smellRad  = 30;
+    this.soundRad  = 50;
     this.isStatic  = true;
     this.hasAni    = false;
 
@@ -17,15 +17,20 @@ function Food (position)
     this.smell     = 'sweet';
     this.taste     = 'good';
 
-    this.edible    = true;
-
-    // % value
-    this.fun       = 60;
-    this.soundRad  = 0;
-    this.isStatic  = true;
-    this.hasAni    = false;
-
-
+    // % value asosiated with actions the pet can take
+    this.eat            = 100;
+    this.sleep          = 0;
+    this.washSelf       = 0;
+    this.fight          = 0;
+    this.runAway        = 0;
+    this.threaten       = 0;
+    this.talkTo         = 0;
+    this.washOther      = 0;
+    this.grabb          = 50;
+    this.push           = 50;
+    this.exlore         = 50;
+    this.jumpOnToppOff  = 60; //This should be able to change as if they jump on it they wont get to eat it
+    
     //Call the parent constructor
    BaseObject.call(this);
 }
