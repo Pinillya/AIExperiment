@@ -42,9 +42,7 @@ function movePet ()
 		};
 	};
 
-	//Moves the pet in the pets own moving function, framecount will be
-	//used to make random positions for the pet.
-	pet.moving(frameCounter);
+	pet.moving();
 }
 
 function petMoodControl () 

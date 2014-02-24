@@ -20,22 +20,155 @@ Pet.prototype.moodsAdjusters = function()
 	//Altering moods dependant on the day and
 };
 
+//Basic Pet Mind:
+Pet.prototype.actionsSettings = function(eat, sleep, washSelf, fight, runAway, threaten,
+										talkTo, washOther, grabb, push, explore, jumpOnToppOff)
+{
+	// console.log ("****New Mood prio list***")
+    petActions.eat            += eat,
+    petActions.sleep          += sleep,
+    petActions.washSelf       += washSelf,
+    petActions.fight          += fight,
+    petActions.runAway        += runAway,
+    petActions.threaten       += threaten,
+    petActions.talkTo         += talkTo,
+    petActions.washOther      += washOther,
+    petActions.grabb          += grabb,
+    petActions.push           += push,
+    petActions.explore        += explore,
+    petActions.jumpOnToppOff  += jumpOnToppOff
+
+    //Creating an array to help sort the values. 
+	var tempActionReuseNumber = [
+	    petActions.eat,
+	    petActions.sleep,
+	    petActions.washSelf,
+	    petActions.fight,
+	    petActions.runAway,
+	    petActions.threaten,
+	    petActions.talkTo,
+	    petActions.washOther,
+	    petActions.grabb,
+	    petActions.push,
+	    petActions.explore,
+	    petActions.jumpOnToppOff
+	];
+	var tempActionKeepNumber = [];
+
+ //    //Creating an array to help sort the values. 
+	// console.log(
+	// 	petActions.eat + " petActions.eat \n"+
+	//     petActions.sleep +  " petActions.sleep \n"+
+	//     petActions.washSelf + " petActions.washSelf \n"+
+	//     petActions.fight + " petActions.fight \n"+
+	//     petActions.runAway + " petActions.runAway \n"+
+	//     petActions.threaten + " petActions.threaten \n"+
+	//     petActions.talkTo + " petActions.talkTo \n"+
+	//     petActions.washOther + " petActions.washOther \n"+
+	//     petActions.grabb + " petActions.grabb \n"+
+	//     petActions.push + " petActions.push \n"+
+	//     petActions.explore + " petActions.explore \n"+
+	//     petActions.jumpOnToppOff + "petActions.jumpOnToppOff \n"
+	// );
+
+    pet.petMoodSorter(tempActionReuseNumber, tempActionKeepNumber, tempActionReuseNumber.length); 
+};
+
+//Sorting function where the result will be the prio list of the animal.
+Pet.prototype.petMoodSorter = function(tempActionReuseNumber, tempActionKeepNumber, originalArrayLength)
+{	
+	//We pull out the first number in the array.
+	tempfirstNumInArrHolder = tempActionReuseNumber.shift();
+	for (var i = 0; i <= tempActionReuseNumber.length -1; i++) 
+	{
+		//We check the pulled out number against all the other numbers in the array.
+		if (tempActionReuseNumber[i] < tempfirstNumInArrHolder)
+		{
+			//If another number is lower, we will swap places between the saved number and the low
+			//number. Then continue in the array to check if another number is lower
+			var numberHolder = tempActionReuseNumber[i];
+			tempActionReuseNumber.splice(i, 1, tempfirstNumInArrHolder);
+			tempfirstNumInArrHolder = numberHolder;
+		}
+	};
+
+	//This part is purly there to make sure the outcome is correct.
+	var checking = true;
+	for (var i = 0; i <= tempActionReuseNumber.length -1; i++) 
+	{ 
+		if (tempActionReuseNumber[i] < tempfirstNumInArrHolder)
+		{
+			checking = false;
+		}
+	};
+	//As the check turns true, we give the value to the final array.
+	if (checking)
+	{
+		tempActionKeepNumber.push(tempfirstNumInArrHolder);
+	}
+	//Done checking
+
+	//If the array hasent finished sorting yet, we will start the process over again.
+	if (tempActionKeepNumber.length < 12)
+	{
+		pet.petMoodSorter(tempActionReuseNumber, tempActionKeepNumber, originalArrayLength);
+	}
+	else
+	{
+		pet.moodsPrioAssigning(tempActionKeepNumber)
+	}
+}
+Pet.prototype.moodsPrioAssigning = function(tempActionKeepNumber)
+{
+	var moodCompare = [
+	    petActions.eat,
+	    petActions.sleep,
+	    petActions.washSelf,
+	    petActions.fight,
+	    petActions.runAway,
+	    petActions.threaten,
+	    petActions.talkTo,
+	    petActions.washOther,
+	    petActions.grabb,
+	    petActions.push,
+	    petActions.explore,
+	    petActions.jumpOnToppOff
+	];
+
+	// console.log("******");
+	// for (var i = tempActionKeepNumber.length - 1; i >= 0; i--) {
+	// 	console.log(tempActionKeepNumber[i]);
+	// };
+
+	for (var i = tempActionKeepNumber.length - 1; i >= 0; i--)
+	{
+		for (var j = moodCompare.length - 1; j >= 0; j--) 
+		{
+			if (tempActionKeepNumber[i] == moodCompare[j])
+			{
+				petActionPrioList[i] = petActionsNames[j];
+				moodCompare[j] = -888;
+				j = 0;
+			}
+		};
+	};
+
+	console.log("\n**moodCompare**");
+	for (var i = 0; i < petActionPrioList.length; i++) 
+	{
+		console.log(petActionPrioList[i]);
+	};
+	console.log("****\n");
+}
+
 Pet.prototype.moodsReading = function()
 {
-    petActionsBool.eat           = false;
-    petActionsBool.sleep         = false;
-    petActionsBool.washSelf      = false;
-    petActionsBool.fight         = false;
-    petActionsBool.runAway       = false;
-    petActionsBool.threaten      = false;
-    petActionsBool.talkTo        = false;
-    petActionsBool.washOther     = false;
-    petActionsBool.grabb         = false;
-    petActionsBool.push          = false;
-    petActionsBool.exlore        = false;
-    petActionsBool.investigating = false;
-    petActionsBool.jumpOnToppOff = false;
-
+	//pet.actionsSettings(
+	//	eat, sleep, washSelf, fight, 
+	//	runAway, threaten, talkTo, 
+	//	washOther, grabb, push, 
+	//	explore, jumpOnToppOff);
+	
 	if (petMoodsBool.surprised)
 	{
 		petsCurrentMood.y += petMoodAdjusters[1];
@@ -46,10 +179,11 @@ Pet.prototype.moodsReading = function()
 		petsCurrentMood.y += petMoodAdjusters[1];
 	}
 
+	//Level30
 	if (petNeeds.sleepLevel < 10)
 	{
 		//Go sleep! 
-		petsCurrentAction = 'sleep';
+		//petsCurrentAction = 'sleep';
 	}
 	else if (petNeeds.hungerLevel < 30)
 	{
@@ -57,94 +191,93 @@ Pet.prototype.moodsReading = function()
 		//Pettarget location = food location
 
 		//If not:
-		petsCurrentAction = 'explore';
+		//petsCurrentAction = 'explore';
 	};
 
-	if (petMoodsBool.scared  || petMoodsBool.depressed)
+	//Level25
+	if (petMoodsBool.scared)
 	{
-		if (petMoodsBool.scared)
-		{
-			petActionsBool.threaten      = true;
-            petActionsBool.push      	 = true;
-            petActionsBool.runAway       = true;
-		}
-		else if (petMoodsBool.depressed)
-		{
-		    petActionsBool.sleep         = true;
-		    petActionsBool.washSelf      = true;
-		    petActionsBool.threaten      = true;
-		    petActionsBool.eat           = true;
-			//Will have to increase mood in some way.....
-		};
+
+		pet.actionsSettings(
+			-12, -12, -12, +12, 
+			+25, +12, -12, 
+			-12, +5, +12, 
+			-12, 0);
 	}
-	else if (petMoodsBool.sosial || petMoodsBool.relaxed || petMoodsBool.playfull)
+	if (petMoodsBool.depressed)
 	{
-		if (petMoodsBool.sosial)
-		{
-            petActionsBool.talkTo        = true;
-            petActionsBool.washOther     = true;
-			
-			if (petMoodsBool.playfull)
-			{
-	            petActionsBool.fight         = true;
-	            petActionsBool.runAway       = true;
-	            petActionsBool.threaten      = true;
-	            petActionsBool.grabb         = true;
-	            petActionsBool.push          = true;
-	            petActionsBool.jumpOnToppOff = true;
-			}
-		}
-		else if (petMoodsBool.relaxed)
-		{
-            petActionsBool.sleep         = true;
-            petActionsBool.washSelf      = true;
-            petActionsBool.talkTo        = true;
-            petActionsBool.washOther     = true;
-		};
+		pet.actionsSettings(
+			+12, +12, 0, -12, 
+			-12, +12, -12, 
+			-12, -12, -12, 
+			-12, -12);
+		//Will have to increase mood in some way.....
+	};
+
+	//Level20
+	if (petMoodsBool.sosial)
+	{
+		pet.actionsSettings(
+			+10, 0, +10, 0, 
+			-10, 0, +20, 
+			+20, +10, 0, 
+			+10, 0);
+	}	
+	if (petMoodsBool.playfull)
+	{
+
+		pet.actionsSettings(
+			-10, -10, -10, +10, 
+			+10, +10, +10, 
+			0, +10, +10, 
+			+10, +10);
 	}
-	else if (petMoodsBool.agressive || petMoodsBool.uncomfertable)
+	
+	if (petMoodsBool.relaxed)
 	{
-		if (petMoodsBool.uncomfertable)
-		{
-			petActionsBool.eat           = true;
-            petActionsBool.runAway       = true;
-            petActionsBool.threaten      = true;
-            petActionsBool.talkTo        = true;
-            petActionsBool.exlore        = true;
- 
-			if (petMoodsBool.agressive)
-			{
-	            petActionsBool.fight         = true;
-	            petActionsBool.threaten      = true;
-	            petActionsBool.grabb         = true;
-	            petActionsBool.push          = true;
-	            petActionsBool.jumpOnToppOff = true;
-			}			
-		}
+
+		pet.actionsSettings(
+			+10, +20, +20, -20, 
+			-10, -10, +10, 
+			+10, -10, -10, 
+			-10, -10);
+	};
+
+	//Level15
+	if (petMoodsBool.uncomfertable)
+	{
+
+		pet.actionsSettings(
+			+7, -7, 0, 0, 
+			+7, +7, +7, 
+			-7, 0, 0, 
+			0, 0);
 	}
-	else if (petMoodsBool.curious || petMoodsBool.sad)
+	if (petMoodsBool.agressive)
 	{
-		if (petMoodsBool.curious)
-		{
-			//petActionsBool.eat           = true;
-            //petActionsBool.sleep         = true;
-            petActionsBool.fight         = true;
-            petActionsBool.threaten      = true;
-            petActionsBool.talkTo        = true;
-            petActionsBool.washOther     = true;
-            petActionsBool.grabb         = true;
-            petActionsBool.push          = true;
-            petActionsBool.jumpOnToppOff = true;
-		}
-		else if (petMoodsBool.sad)
-		{
-			petActionsBool.eat           = true;
-            petActionsBool.sleep         = true;
-            petActionsBool.washSelf      = true;
-            petActionsBool.threaten      = true;
-            petActionsBool.talkTo        = true;
-            petActionsBool.washOther     = true;
-		};
+		pet.actionsSettings(
+			-7, -7, -7, +15, 
+			-7, +7, -15, 
+			-15, +7, +7, 
+			-7, +7);
+	}			
+	
+	//level10
+	if (petMoodsBool.curious)
+	{
+		pet.actionsSettings(
+			+5, -5, +5, +5, 
+			-10, +5, +5, 
+			+5, +5, +5, 
+			+10, +5);
+	}
+	if (petMoodsBool.sad)
+	{
+		pet.actionsSettings(
+			+5, +5, +5, -5, 
+			-5, +5, +5, 
+			+5, -5, -5, 
+			-5, -5);
 	};
 };
 
@@ -153,6 +286,21 @@ Pet.prototype.moodsReading = function()
 //What the pet wants to is dependant on its mood
 Pet.prototype.moods = function()
 {
+	petActions =
+	{
+	    "eat"            : 50,
+	    "sleep"          : 50,
+	    "washSelf"       : 50,
+	    "fight"          : 50,
+	    "runAway"        : 50,
+	    "threaten"       : 50,
+	    "talkTo"         : 50,
+	    "washOther"      : 50,
+	    "grabb"          : 50,
+	    "push"           : 50,
+	    "explore"        : 50,
+	    "jumpOnToppOff"  : 50
+	};
 	//Setting the moods:
 	//First Check Bad
 	if (petsCurrentMood.x < petMoods.agressive[0])
@@ -230,6 +378,8 @@ Pet.prototype.moods = function()
 			console.log (petMoodsBool.relaxed + "petMoodsBool.relaxed")
 		}
 	};
+
+	pet.moodsReading();
 };
 
 //***************************************************************************\\
@@ -244,8 +394,8 @@ var petItemsKnown = new Array();
 var petEncounterCounter = new Array();
 
 //The pets mood is a vector2 on a mood scale.
-var petsCurrentMood = new THREE.Vector2(5,0);
-var petsCurrentAction = 'explore';
+var petsCurrentMood = new THREE.Vector2(0,0);
+var petActionPrioList = new Array();
 
 // If the pet reacts to something unexpected, the pet will addjust its mood
 var petMoodAdjusters =
@@ -272,8 +422,8 @@ var petMoods =
     "uncomfertable"     : [-3,-2],
     "curious"           : [-3,-2],
     "playfull"          : [0,2],
-    "sosial"            : [-8,-2],
-    "relaxed"           : [0,0],
+    "sosial"            : [-2,-8],
+    "relaxed"           : [-1,0],
     "sad"               : [0,0],
     "depressed"         : [-3,-2]
 };
@@ -293,22 +443,29 @@ var petMoodsBool =
 };
 
 //Depending on the pets different moods, it will have different actions it wants to do.
+//And the % the pet is interested in doing this.
 var petActions =
 {
-    "eat"            : 'eat',
-    "sleep"          : 'sleep',
-    "washSelf"       : 'washSelf',
-    "fight"          : 'fight',
-    "runAway"        : 'run',
-    "threaten"       : 'threaten',
-    "talkTo"         : 'talkTo',
-    "washOther"      : 'washOther',
-    "grabb"          : 'grabb',
-    "push"           : 'push',
-    "exlore"         : 'exlore',
-    "investigating"  : 'investigating',
-    "jumpOnToppOff"  : 'jumpOn'
+    "eat"            : 50,
+    "sleep"          : 50,
+    "washSelf"       : 50,
+    "fight"          : 50,
+    "runAway"        : 50,
+    "threaten"       : 50,
+    "talkTo"         : 50,
+    "washOther"      : 50,
+    "grabb"          : 50,
+    "push"           : 50,
+    "explore"        : 50,
+    "jumpOnToppOff"  : 50
 };
+
+
+var petActionsNames = [
+"eat" ,"sleep","washSelf","fight","runAway",
+"threaten","talkTo","washOther","grabb",
+"push","explore","jumpOnToppOff" 
+];
 
 var petActionsBool =
 {
@@ -323,6 +480,5 @@ var petActionsBool =
     "grabb"          : false,
     "push"           : false,
     "exlore"         : false,
-    "investigating"  : false,
     "jumpOnToppOff"  : false
 };

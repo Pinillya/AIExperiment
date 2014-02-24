@@ -66,41 +66,54 @@ Pet.prototype.smellHearObject = function(itemNumber)
 };
 
 Pet.prototype.checkInterest = function(itemNumber, itemName, itemDistance)
-{  //console.log (itemNumber + " itemNumber " + itemName + " itemName " + itemDistance + " itemDistance ");
-	//if (!petActionsBool.eat || !petActionsBool.sleep)
-	//{
-		if (petItemsKnown == "0")
+{  
+
+	var knowsItem = false;
+	//If the item is named "0" it means that the pet only hears the item.
+	if (itemName == "0")
+	{
+		return;
+		//Explore the obbject
+		//temp:
+		//petItemsKnown.push(itemName);
+	}
+	else
+	{
+		for (var i = petItemsKnown.length - 1; i >= 0; i--) 
 		{
-			//Explore the obbject
-			//temp:
-			//petItemsKnown.push(itemName);
-		}
-		for (var i = petItemsKnown.length - 1; i >= 0; i--) {
-			//console.log (itemNumber + " itemNumber " + itemName + " itemName " + itemDistance + " itemDistance ");
 			if (petItemsKnown[i] == itemName)
 			{
-				console.log ("knows item")
+				knowsItem = true;
+				//console.log ("knows item " + itemName)
+				return;
 			} 
-			else if (petMoodsBool.curious)
+		};
+		if (!knowsItem)
+		{
+			if (petMoodsBool.curious)
 			{
-				console.log ("doesnt know item - is curius")
-				//If curiouse
+				//console.log ("doesnt know item - is curius " + itemName)
+				petItemsKnown.push(itemName);
+				//Astablish a profile for the item
+				return;
 			}
 			else //if (search for items it might want to deal with)
 			{
-				console.log ("doesnt know item - is not curius")
+				//console.log ("doesnt know item - is not curius")
+				return;
 				//Look for items in items known. if the pets wants to do a spesific thing.
 			}
-			//else
-			//{
-				//console.log ("doesnt know item - is curius")
-				//investigate object
-			//}
-		};
-		//Does the pet know the item? 
-		//If it does, does it have a high quality of the thing it wants. 
-	//}
+		}
+		else
+		{
+			//If the items is known
+			//Check if this is the item the pet is currently interested in
+		}
+	}
+};
 
+Pet.prototype.alteringFavoredActivity = function(itemNumber, itemName, itemDistance)
+{  
 	if (petNeeds.hungerLevel > petNeeds.sleepLevel)
 	{
 		//if item is a eat item, use it, if not, go look for something else

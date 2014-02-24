@@ -16,7 +16,7 @@ function BaseObject ()
         this.plane.position = this.position;
     } 
 
-    console.log (this.nameId);
+     console.log (this.nameId);
 
     this.touching = touching;
 }
