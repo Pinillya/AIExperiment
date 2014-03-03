@@ -2,9 +2,93 @@
 //''''''''''''''''''''''''''''''''Pet Moods''''''''''''''''''''''''''''''''''\\
 //***************************************************************************\\
 
+function Moody (personality) 
+{
+
+	var newMoodList = [];
+	var newActionList = [];
+
+	//***************************************************************************\\
+	//''''''''''''''''''''''''''''''''Mood Globals''''''''''''''''''''''''''''''''\\
+	//***************************************************************************\\
+
+	// If the pet reacts to something unexpected, the pet will addjust its mood
+	var petMoodAdjusters =
+	{
+	    "disapointed"       : [-2,-2],
+	    "surprised"         : [0,+7]
+	};
+
+	//Pet needs - needs that will decrease as time passes
+	var petNeeds =
+	{
+	    "hungerLevel"      : 100,
+	    "foodDigesting"    : 0,
+	    "sleepLevel"       : 100,
+	    "hungerAdjuster"   : 0.99,
+	    "sleepAdjuster"    : 0.99
+	};
+
+	//Depending on where the pet is on the XY mood scale, it will be in different moods. 
+	var petMoods =
+	{
+	    "agressive"         : [-7,5],
+	    "scared"            : [-3,5],
+	    "uncomfertable"     : [-3,-2],
+	    "curious"           : [-3,-2],
+	    "playfull"          : [0,2],
+	    "sosial"            : [-2,-8],
+	    "relaxed"           : [-1,0],
+	    "sad"               : [0,0],
+	    "depressed"         : [-3,-2]
+	};
+
+	var petMoodsBool =
+	{
+	    "agressive"         : false,
+	    "scared"            : false,
+	    "uncomfertable"     : false,
+	    "curious"           : false,
+	    "playfull"          : false,
+	    "relaxed"           : false,
+	    "sad"               : false,
+	    "depressed"         : false,
+	    "surprised"         : false,
+	    "disapointed"       : false
+	};
+
+	//Depending on the pets different moods, it will have different actions it wants to do.
+	//And the % the pet is interested in doing this.
+
+
+
+	var petActionsNames = [
+	"eat" ,"sleep","washSelf","fight","runAway",
+	"threaten","talkTo","washOther","grabb",
+	"push","explore","jumpOnToppOff" 
+	];
+
+	var petActionsBool =
+	{
+	    "eat"            : false,
+	    "sleep"          : false,
+	    "washSelf"       : false,
+	    "fight"          : false,
+	    "runAway"        : false,
+	    "threaten"       : false,
+	    "talkTo"         : false,
+	    "washOther"      : false,
+	    "grabb"          : false,
+	    "push"           : false,
+	    "exlore"         : false,
+	    "jumpOnToppOff"  : false
+	};
+
+};
+
 
 //Basic Pet Mind:
-Pet.prototype.moodsAdjusters = function()
+Moody.prototype.moodsAdjusters = function()
 {
 	if (petNeeds.sleepLevel < 1 && petNeeds.sleepLevel > 0) 
 	{
@@ -20,8 +104,19 @@ Pet.prototype.moodsAdjusters = function()
 	//Altering moods dependant on the day and
 };
 
+var moodTimeCounet = 0;
+Moody.prototype.moodTimer = function() 
+{
+	//if (moodTimeCounet = )
+	//petNeeds.sleepLevel 
+	//petNeeds.hungerLevel
+	//petNeeds.foodDigesting
+
+	setTimeout(pet.moodTimer,1000);
+};
+
 //Basic Pet Mind:
-Pet.prototype.actionsSettings = function(eat, sleep, washSelf, fight, runAway, threaten,
+Moody.prototype.actionsSettings = function(eat, sleep, washSelf, fight, runAway, threaten,
 										talkTo, washOther, grabb, push, explore, jumpOnToppOff)
 {
 	// console.log ("****New Mood prio list***")
@@ -55,7 +150,7 @@ Pet.prototype.actionsSettings = function(eat, sleep, washSelf, fight, runAway, t
 	];
 	var tempActionKeepNumber = [];
 
- //    //Creating an array to help sort the values. 
+//    //Creating an array to help sort the values. 
 	// console.log(
 	// 	petActions.eat + " petActions.eat \n"+
 	//     petActions.sleep +  " petActions.sleep \n"+
@@ -69,13 +164,13 @@ Pet.prototype.actionsSettings = function(eat, sleep, washSelf, fight, runAway, t
 	//     petActions.push + " petActions.push \n"+
 	//     petActions.explore + " petActions.explore \n"+
 	//     petActions.jumpOnToppOff + "petActions.jumpOnToppOff \n"
-	// );
+// );
 
-    pet.petMoodSorter(tempActionReuseNumber, tempActionKeepNumber, tempActionReuseNumber.length); 
+    newPetMood.petMoodSorter(tempActionReuseNumber, tempActionKeepNumber, tempActionReuseNumber.length); 
 };
 
 //Sorting function where the result will be the prio list of the animal.
-Pet.prototype.petMoodSorter = function(tempActionReuseNumber, tempActionKeepNumber, originalArrayLength)
+Moody.prototype.petMoodSorter = function(tempActionReuseNumber, tempActionKeepNumber, originalArrayLength)
 {	
 	//We pull out the first number in the array.
 	tempfirstNumInArrHolder = tempActionReuseNumber.shift();
@@ -111,14 +206,14 @@ Pet.prototype.petMoodSorter = function(tempActionReuseNumber, tempActionKeepNumb
 	//If the array hasent finished sorting yet, we will start the process over again.
 	if (tempActionKeepNumber.length < 12)
 	{
-		pet.petMoodSorter(tempActionReuseNumber, tempActionKeepNumber, originalArrayLength);
+		newPetMood.petMoodSorter(tempActionReuseNumber, tempActionKeepNumber, originalArrayLength);
 	}
 	else
 	{
-		pet.moodsPrioAssigning(tempActionKeepNumber)
+		newPetMood.moodsPrioAssigning(tempActionKeepNumber)
 	}
 }
-Pet.prototype.moodsPrioAssigning = function(tempActionKeepNumber)
+Moody.prototype.moodsPrioAssigning = function(tempActionKeepNumber)
 {
 	var moodCompare = [
 	    petActions.eat,
@@ -161,7 +256,7 @@ Pet.prototype.moodsPrioAssigning = function(tempActionKeepNumber)
 	console.log("****\n");
 }
 
-Pet.prototype.moodsReading = function()
+Moody.prototype.moodsReading = function()
 {
 	//pet.actionsSettings(
 	//	eat, sleep, washSelf, fight, 
@@ -198,7 +293,7 @@ Pet.prototype.moodsReading = function()
 	if (petMoodsBool.scared)
 	{
 
-		pet.actionsSettings(
+		newPetMood.actionsSettings(
 			-12, -12, -12, +12, 
 			+25, +12, -12, 
 			-12, +5, +12, 
@@ -206,7 +301,7 @@ Pet.prototype.moodsReading = function()
 	}
 	if (petMoodsBool.depressed)
 	{
-		pet.actionsSettings(
+		newPetMood.actionsSettings(
 			+12, +12, 0, -12, 
 			-12, +12, -12, 
 			-12, -12, -12, 
@@ -217,7 +312,7 @@ Pet.prototype.moodsReading = function()
 	//Level20
 	if (petMoodsBool.sosial)
 	{
-		pet.actionsSettings(
+		newPetMood.actionsSettings(
 			+10, 0, +10, 0, 
 			-10, 0, +20, 
 			+20, +10, 0, 
@@ -226,7 +321,7 @@ Pet.prototype.moodsReading = function()
 	if (petMoodsBool.playfull)
 	{
 
-		pet.actionsSettings(
+		newPetMood.actionsSettings(
 			-10, -10, -10, +10, 
 			+10, +10, +10, 
 			0, +10, +10, 
@@ -236,7 +331,7 @@ Pet.prototype.moodsReading = function()
 	if (petMoodsBool.relaxed)
 	{
 
-		pet.actionsSettings(
+		newPetMood.actionsSettings(
 			+10, +20, +20, -20, 
 			-10, -10, +10, 
 			+10, -10, -10, 
@@ -247,7 +342,7 @@ Pet.prototype.moodsReading = function()
 	if (petMoodsBool.uncomfertable)
 	{
 
-		pet.actionsSettings(
+		newPetMood.actionsSettings(
 			+7, -7, 0, 0, 
 			+7, +7, +7, 
 			-7, 0, 0, 
@@ -255,7 +350,7 @@ Pet.prototype.moodsReading = function()
 	}
 	if (petMoodsBool.agressive)
 	{
-		pet.actionsSettings(
+		newPetMood.actionsSettings(
 			-7, -7, -7, +15, 
 			-7, +7, -15, 
 			-15, +7, +7, 
@@ -263,9 +358,9 @@ Pet.prototype.moodsReading = function()
 	}			
 	
 	//level10
-	if (petMoodsBool.curious)
-	{
-		pet.actionsSettings(
+	{	if (petMoodsBool.curious)
+
+		newPetMood.actionsSettings(
 			+5, -5, +5, +5, 
 			-10, +5, +5, 
 			+5, +5, +5, 
@@ -273,7 +368,7 @@ Pet.prototype.moodsReading = function()
 	}
 	if (petMoodsBool.sad)
 	{
-		pet.actionsSettings(
+		newPetMood.actionsSettings(
 			+5, +5, +5, -5, 
 			-5, +5, +5, 
 			+5, -5, -5, 
@@ -284,7 +379,7 @@ Pet.prototype.moodsReading = function()
 
 //Mood chart. The moods are based on a X and Y system. If the pet iagressive it is also in a bad mood. 
 //What the pet wants to is dependant on its mood
-Pet.prototype.moods = function()
+Moody.prototype.moods = function()
 {
 	petActions =
 	{
@@ -379,12 +474,20 @@ Pet.prototype.moods = function()
 		}
 	};
 
-	pet.moodsReading();
+	newPetMood.moodsReading();
 };
 
-//***************************************************************************\\
-//''''''''''''''''''''''''''''''''Pet Globals''''''''''''''''''''''''''''''''\\
-//***************************************************************************\\
+function PetActions (name, value, pyramideValue) 
+{
+	var newMood = 
+	{
+		name     		: name,
+		value 			: value,
+		active 	  		: false,
+		pyramideValue 	: pyramideValue
+	};
+	return newAction;
+}
 
 //The position the pet is currently walking towards
 var petTargetPos = new THREE.Vector3(0,0,0);
@@ -394,56 +497,9 @@ var petItemsKnown = new Array();
 var petEncounterCounter = new Array();
 
 //The pets mood is a vector2 on a mood scale.
-var petsCurrentMood = new THREE.Vector2(0,0);
+var petsCurrentMood = new THREE.Vector2(-9,9);
 var petActionPrioList = new Array();
 
-// If the pet reacts to something unexpected, the pet will addjust its mood
-var petMoodAdjusters =
-{
-    "disapointed"       : [-2,-2],
-    "surprised"         : [0,+7]
-};
-
-//Pet needs - needs that will decrease as time passes
-var petNeeds =
-{
-    "hungerLevel"      : 100,
-    "foodDigesting"    : 0,
-    "sleepLevel"       : 100,
-    "hungerAdjuster"   : 0.99,
-    "sleepAdjuster"    : 0.99
-};
-
-//Depending on where the pet is on the XY mood scale, it will be in different moods. 
-var petMoods =
-{
-    "agressive"         : [-7,5],
-    "scared"            : [-3,5],
-    "uncomfertable"     : [-3,-2],
-    "curious"           : [-3,-2],
-    "playfull"          : [0,2],
-    "sosial"            : [-2,-8],
-    "relaxed"           : [-1,0],
-    "sad"               : [0,0],
-    "depressed"         : [-3,-2]
-};
-
-var petMoodsBool =
-{
-    "agressive"         : false,
-    "scared"            : false,
-    "uncomfertable"     : false,
-    "curious"           : false,
-    "playfull"          : false,
-    "relaxed"           : false,
-    "sad"               : false,
-    "depressed"         : false,
-    "surprised"         : false,
-    "disapointed"       : false
-};
-
-//Depending on the pets different moods, it will have different actions it wants to do.
-//And the % the pet is interested in doing this.
 var petActions =
 {
     "eat"            : 50,
@@ -458,27 +514,4 @@ var petActions =
     "push"           : 50,
     "explore"        : 50,
     "jumpOnToppOff"  : 50
-};
-
-
-var petActionsNames = [
-"eat" ,"sleep","washSelf","fight","runAway",
-"threaten","talkTo","washOther","grabb",
-"push","explore","jumpOnToppOff" 
-];
-
-var petActionsBool =
-{
-    "eat"            : false,
-    "sleep"          : false,
-    "washSelf"       : false,
-    "fight"          : false,
-    "runAway"        : false,
-    "threaten"       : false,
-    "talkTo"         : false,
-    "washOther"      : false,
-    "grabb"          : false,
-    "push"           : false,
-    "exlore"         : false,
-    "jumpOnToppOff"  : false
 };

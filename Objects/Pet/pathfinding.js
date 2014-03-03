@@ -82,7 +82,7 @@ function FindPath(worldGrid, startPos, endPos)
 	{
 		return ((worldGrid[x] != null) &&
 			(worldGrid[x][z] != null) &&
-			(worldGrid[x][z] == 0));
+			(worldGrid[x][z] <= 1));
 	} // walkable ends
 
 	//Here we make our nodes.

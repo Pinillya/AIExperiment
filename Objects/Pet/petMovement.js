@@ -1,7 +1,4 @@
-//***************************************************************************\\
 //'''''''''''''''''''''''''''''''Pet Movement''''''''''''''''''''''''''''''''\\
-//***************************************************************************\\
-
 //Function to make the pet move with a target pos,
 //Finding random target points the pet can walk to if bored
 //Generate hovering on the pet if the pet is flying.
@@ -19,11 +16,12 @@ Pet.prototype.moving = function()
 	    //new position, if it has gone to the last postion in the path.
 		if (petActions.explore >= 50 && !newPath && currentPath.length == 0)
 		{
+/*
 			var ranNumX = 100, ranNumZ = 0, ranNumY = 0;
 			ranNumX = Math.floor(THREE.Math.random16() * worldX);
 			ranNumZ = Math.floor(THREE.Math.random16() * worldZ);
-
-			petTargetPos = new THREE.Vector3(ranNumX,ranNumY,ranNumZ);
+*/
+			petTargetPos = new THREE.Vector3(3,0,5);
 			newPath = true;
 		}
 
@@ -59,7 +57,17 @@ Pet.prototype.moving = function()
 			{
 				if (petGridPos.x == currentPath[0].x && petGridPos.z == currentPath[0].z)
 				{
-					currentPath.splice(0, 1)[0];
+					if (worldGrid[currentPath[0].x][currentPath[0].z] == 1)
+					{
+						console.log("Hitting object");
+						//Here we have a new object to investigate! 
+						currentPath = [];
+						petActions.explore = 30;
+					}
+					else
+					{
+						currentPath.splice(0, 1)[0];
+					}
 				}
 				else
 				{

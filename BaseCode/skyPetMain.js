@@ -41,6 +41,7 @@ function createScene ()
 	makeAMesh();
 	makeLight();
 	makeWorldGrid();
+	startTime()
 }
 
 //Three.js basic setup
@@ -60,6 +61,7 @@ function makeLight ()
 var pet;
 var objects = [];
 var ObjPos = [];
+var petKnownObjPos = [];
 function makeAMesh () 
 {
 	//Temp Background:
@@ -77,7 +79,6 @@ function makeAMesh ()
     //Mesh On the scene
     //Pet
 	pet = new Pet();
-	pet.moods();
 
 	//Objects
 	ObjPos[0] = new THREE.Vector3(30,0,50);
@@ -91,10 +92,10 @@ function makeAMesh ()
 var worldGrid = [[]];
 var worldX;
 var worldZ;
-//var plane = [];
+var plane = [];
 function makeWorldGrid () 
 { 
-	var plane = [];	
+	//var plane = [];	
 	var worldSizeX = 800;
 	var worldSizeZ = 800;
 	worldX = Math.floor(worldSizeX/50); //800/50 = 16
@@ -104,7 +105,7 @@ function makeWorldGrid ()
 	i,
 	j;
 
-	//var material = new THREE.MeshBasicMaterial( { vertexColors: THREE.FaceColors, overdraw: 0.5 } );
+	var material = new THREE.MeshBasicMaterial( { vertexColors: THREE.FaceColors, overdraw: 0.5 } );
 
 	for (i = 0; i < worldX; i++) 
 	{
@@ -118,18 +119,37 @@ function makeWorldGrid ()
 			//We will give the peth a wide walking space.
 			for (var k = 0, l = ObjPos.length; k < l; k++) 
 			{
+				//Is there actually a object there? 
 				if ((gridPos.x < ObjPos[k].x +worldX) && (gridPos.x > ObjPos[k].x -worldX))
 				{
 					if ((gridPos.z < ObjPos[k].z +worldZ) && (gridPos.z > ObjPos[k].z -worldZ))
 					{
-						worldGrid[i][j] = 1;
+						var tempPosTester = false;
+						//Does the pet know about this object?
+						for (var m = 0; m < petKnownObjPos.length; m++) 
+						{
+							if(ObjPos[k] == petKnownObjPos[m])
+							{
+								worldGrid[i][j] = 2;
+								tempPosTester = true;
+							}
+							else
+							{
+
+							}
+						};
+
+						if (!tempPosTester)
+						{
+							worldGrid[i][j] = 1;
+						}
 					}
 				}
 			};
 
-//Visual Test Grid: Need to turn on material and if you want to test with effect when a path is made,
-//make plane[] global and activate the test loop in "PetMovement"
-/*
+  //Visual Test Grid: Need to turn on material and if you want to test with effect when a path is made,
+  //make plane[] global and activate the test loop in "PetMovement"
+
 			if (worldGrid[i][j] == 0)
 			{
 				plane[j + (i*worldX)] = new THREE.Mesh(
@@ -140,8 +160,7 @@ function makeWorldGrid ()
 			    scene.add(plane[j + (i*worldX)]);
 			    plane[j + (i*worldX)].position = gridPos;
 			}
-*/
-/*
+
 			if (worldGrid[i][j] == 1)
 			{
 				plane[j + (i*worldX)] = new THREE.Mesh(
@@ -152,8 +171,47 @@ function makeWorldGrid ()
 			    scene.add(plane[j + (i*worldX)]);
 			    plane[j + (i*worldX)].position = gridPos;
 			}
-*/
+
+			if (worldGrid[i][j] == 2)
+			{
+				plane[j + (i*worldX)] = new THREE.Mesh(
+			        new THREE.PlaneGeometry(
+			        0,
+			        0),
+			        material);
+			    scene.add(plane[j + (i*worldX)]);
+			    plane[j + (i*worldX)].position = gridPos;
+			}
+
 
 		}		
 	}
+}
+
+seconds = 0;
+minutes = 0;
+hours = 0;
+days = 0;
+function startTime () 
+{
+	document.getElementById('myCounter').innerHTML = days + ":" + hours + ":" +  minutes + ":" + seconds;
+
+	if (seconds >=60)
+	{
+		seconds = 0;
+		minutes++;
+	}
+	if (minutes >=60)
+	{
+		minutes = 0;
+		hours++;
+	}
+	if (hours >=24)
+	{
+		hours = 0;
+		days++;
+	}
+
+	seconds++;
+	setTimeout(startTime,1000);
 }

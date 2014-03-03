@@ -1,7 +1,7 @@
 //Illy Binfield, 2014, pet.js
 //Pet class. The pet class will be initiated as the pet is created.
 //the pet class holds all the functiuons used in conection with the pet.
-
+//var newPetMood;
 function Pet ()
 {
     this.position  = new THREE.Vector3(0,0,0);
@@ -29,7 +29,19 @@ function Pet ()
 
         scene.add(pet);
         pet.position = this.position;
-    } 
+    }
+
+    this.petMoodPersonality = 
+    {
+    	useOfEnergy		: 0.5,
+    	digestion		: 2,
+    	enegry			: 0.9,
+    	anger			: 0.9,
+    	moodSwings		: 1
+    };
+
+    var newPetMoods = new Moody(this.petMoodPersonality);
+    var newPetMood = new Mood(this.petMoodPersonality, petsCurrentMood);
 }
 
 //***************************************************************************\\
@@ -89,7 +101,7 @@ Pet.prototype.checkInterest = function(itemNumber, itemName, itemDistance)
 			} 
 		};
 		if (!knowsItem)
-		{
+		{/*
 			if (petMoodsBool.curious)
 			{
 				//console.log ("doesnt know item - is curius " + itemName)
@@ -102,7 +114,7 @@ Pet.prototype.checkInterest = function(itemNumber, itemName, itemDistance)
 				//console.log ("doesnt know item - is not curius")
 				return;
 				//Look for items in items known. if the pets wants to do a spesific thing.
-			}
+			}*/
 		}
 		else
 		{
