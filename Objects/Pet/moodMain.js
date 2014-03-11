@@ -2,157 +2,7 @@ function Mood (personality, petCurrentMood)
 { 
 	var moodArray = new Array();
 	var needArray = new Array();
-	var actionArray = new Array();
-	var actionResult = new Array();
-
 	var i, j;
-//*****************************Mood into action**********************************
-	function resetActions () 
-	{
-		//Resetting the actions
-		var basic = 50;
-		for (i = 0; i < actionLength; i++) 
-		{
-			actionArray[i].boolCheck = false;
-			actionArray[i].pValue = basic;
-		};
-
-		//actionBool();
-		moodToAction();	
-	}
-
-	function moodToAction () 
-	{
-		actionResult = [];
-		
-		for (i = 0, j = needArray.length; i < j; i++) 
-		{
-			if(needArray[i].yValue <= 0)
-			{
-				//Current action HAS to be sleep or eat.
-			}
-			if(needArray[i].yValue < 5)
-			{
-				actionResult.push(actionArray[i].named);
-			}
-		};
-		if(actionResult.length <= 0)
-		{
-			for (i = 0; i < moodLength; i++) 
-			{
-				if(moodArray[i].boolCheck)
-				{
-					//Level 1 - Most important
-					if (moodArray[i].named == "scared")
-					{
-						makingMoodList(
-							["runAway","threaten","push"],
-							["sleep"], moodArray[i].importance);
-					}
-					if (moodArray[i].named == "depressed")
-					{
-						makingMoodList(
-							[" "],
-							["eat" ,"sleep","washSelf","fight","runAway","threaten",
-							"talkTo","washOther","grabb","push","explore","jumpOnToppOff" ], moodArray[i].importance);
-					}
-					//Level2
-					if (moodArray[i].named == "sosial")
-					{
-						makingMoodList(
-							["talkTo","washOther"],
-							["runAway","threaten"], moodArray[i].importance);
-					}
-					if (moodArray[i].named == "playfull")
-					{
-						makingMoodList(
-							["fight","runAway","threaten","talkTo","washOther","grabb","push","explore","jumpOnToppOff"],
-							["sleep"], moodArray[i].importance);
-					}
-					if (moodArray[i].named == "relaxed")
-					{
-						makingMoodList(
-							["eat" ,"sleep","washSelf","talkTo","washOther","explore"],
-							["fight","runAway","grabb","push","jumpOnToppOff" ], moodArray[i].importance);
-					}
-					//level3
-					if (moodArray[i].named == "uncomfertable")
-					{
-						makingMoodList(
-							["runAway","threaten","push"],
-							["fight"], moodArray[i].importance);
-					}
-					if (moodArray[i].named == "agressive")
-					{
-						makingMoodList(
-							["fight","threaten","grabb","push","jumpOnToppOff" ],
-							["eat" ,"sleep","washSelf","runAway"], moodArray[i].importance);
-					}
-					//Level 4 -lowes Level of importance
-					if (moodArray[i].named == "curious")
-					{
-						makingMoodList(
-							["eat","washSelf","fight","runAway","threaten",
-							"talkTo","washOther","grabb","push","explore","jumpOnToppOff" ],
-							["sleep"], moodArray[i].importance);
-					}
-					if (moodArray[i].named == "sad")
-					{
-						makingMoodList(
-							["eat" ,"sleep","washSelf"],
-							["fight","grabb","push","explore","jumpOnToppOff"], moodArray[i].importance);
-					}
-				}
-			};
-		}
-	}
-
-	function makingMoodList (plussActions, minusActions, importance) 
-	{
-		for (i = 0; i < actionLength; i++) 
-		{
-			for (j = 0; j < plussActions.length; j++) 
-			{
-				if(actionArray[i].named == plussActions[j])
-				{
-					actionArray[i].pValue += 5*importance;
-				}
-			};
-		};
-	}
-//Mood into action ends
-
-//*****************************Making actions**********************************
-	actionArray = [
-	BaseActions("eat", 			0,  0.5),
-	BaseActions("sleep", 		1,  0  ),
-	BaseActions("washSelf", 	2,  0.5),
-	BaseActions("fight", 		3,  2  ),
-	BaseActions("runAway", 		4,  1  ),
-	BaseActions("threaten", 	5,  1  ),
-	BaseActions("talkTo", 		6,  1  ),
-	BaseActions("washOther", 	7,  0.5),
-	BaseActions("grabb", 		8,  1  ),
-	BaseActions("push", 		9,  1  ),
-	BaseActions("explore", 		10, 1  ),
-	BaseActions("jumpOnToppOff",11, 1  ),
-	BaseActions("sulk",			12, 1  )
-	];
-	actionLength = actionArray.length;
-
-	function BaseActions (named, indexNum, energyRequirement) 
-	{
-		var newAction = 
-		{
-			named 		: named,
-			pValue 		: 50, 
-			boolCheck 	: false,
-			indexNum	: indexNum,
-			energyReq	: energyRequirement
-		}
-		return newAction;	
-	}
-//MakingActions ends
 
 //*****************************Making mood**********************************
 	moodArray = [
@@ -249,10 +99,11 @@ function Mood (personality, petCurrentMood)
 			foodInBelly -= personality.digestion;
 			needArray[0].yValue += personality.digestion;
 		}
+		/*
 		if(actionArray[1].boolCheck)
 		{
 			needArray[1].yValue += personality.digestion;
-		}
+		}*/
 
 		needArray[0].yValue -= personality.useOfEnergy;
 		needArray[1].yValue -= personality.useOfEnergy;
@@ -282,19 +133,9 @@ function Mood (personality, petCurrentMood)
 		for (i=0; i < moodLength; i++) 
 		{
 			moodArray[i].boolCheck = actevatingMoods(moodArray[i]);
-		/*	if (moodArray[i].boolCheck)
+			if (moodArray[i].boolCheck)
 			{
 				document.getElementById('petMood'+tempMoodHTMLNum).innerHTML = moodArray[i].named;
-				tempMoodHTMLNum++;
-			}*/
-		};
-		resetActions();
-		tempMoodHTMLNum=1;
-		for (i =0, j=actionArray.length; i < j; i++) 
-		{
-			if(actionArray[i].boolCheck)
-			{
-				document.getElementById('petAction'+tempMoodHTMLNum).innerHTML = actionArray[i].named;
 				tempMoodHTMLNum++;
 			}
 		};
