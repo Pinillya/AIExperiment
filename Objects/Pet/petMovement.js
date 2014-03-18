@@ -14,15 +14,18 @@ Pet.prototype.moving = function()
 	{
 	    //The pet finds random positions to walk to if it wants to explore, it will automatickly get a 
 	    //new position, if it has gone to the last postion in the path.
-		if (petActions.explore >= 50 && !newPath && currentPath.length == 0)
-		{
-/*
-			var ranNumX = 100, ranNumZ = 0, ranNumY = 0;
-			ranNumX = Math.floor(THREE.Math.random16() * worldX);
-			ranNumZ = Math.floor(THREE.Math.random16() * worldZ);
-*/
-			petTargetPos = new THREE.Vector3(3,0,5);
-			newPath = true;
+	    if (this.actionList[10] != undefined)
+	    {
+			if (this.actionList[10].prio <= 3 && !newPath && currentPath.length == 0)
+			{
+	/*
+				var ranNumX = 100, ranNumZ = 0, ranNumY = 0;
+				ranNumX = Math.floor(THREE.Math.random16() * worldX);
+				ranNumZ = Math.floor(THREE.Math.random16() * worldZ);
+	*/
+				petTargetPos = new THREE.Vector3(3,0,5);
+				newPath = true;
+			}
 		}
 
 

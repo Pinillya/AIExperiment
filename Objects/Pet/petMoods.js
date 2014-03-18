@@ -89,7 +89,7 @@ function Moody (personality)
 
 //Basic Pet Mind:
 Moody.prototype.moodsAdjusters = function()
-{
+{/*
 	if (petNeeds.sleepLevel < 1 && petNeeds.sleepLevel > 0) 
 	{
 		petsCurrentMood.y -= 1;
@@ -98,7 +98,7 @@ Moody.prototype.moodsAdjusters = function()
 		console.log (petsCurrentMood.y + " petsCurrentMood.y " );
 	} else {
 		petNeeds.sleepLevel *= petNeeds.sleepAdjuster;
-	};
+	};*/
 
 	//If just woken up -> bad mood
 	//Altering moods dependant on the day and

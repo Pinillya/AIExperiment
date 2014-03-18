@@ -2,8 +2,20 @@
 //Pet class. The pet class will be initiated as the pet is created.
 //the pet class holds all the functiuons used in conection with the pet.
 //var newPetMood;
+
+//The position the pet is currently walking towards
+var petTargetPos = new THREE.Vector3(0,0,0);
+
+//A list of all the items the pet has encounterd before, and how many times it has encountered it. 
+var petItemsKnown = new Array();
+var petEncounterCounter = new Array();
+
+//The pets mood is a vector2 on a mood scale.
+var petCurrentMood = new THREE.Vector2(-9,9);
+
 function Pet ()
 {
+	//Setting up the unique pets variables:
     this.position  = new THREE.Vector3(0,0,0);
     this.texture   = 'Grapic/Pet/pet.png';
     this.nameId    = 'pet';
@@ -14,11 +26,12 @@ function Pet ()
     this.isStatic  = true;  //Will be false
     this.hasAni    = false; //Will be true
 
+    //As the pets starts it knows no items:
     petItemsKnown[0] = "0";
 	
+	//Adding visual:
     if (this.texture != null)
     {
-       //Texture:
         var petMaterial = new THREE.MeshBasicMaterial({ map: THREE.ImageUtils.loadTexture(this.texture), transparent: true});
 
         pet = new THREE.Mesh(
@@ -31,6 +44,7 @@ function Pet ()
         pet.position = this.position;
     }
 
+    //Making the pets mood and actionList:
     this.petMoodPersonality = 
     {
     	useOfEnergy		: 0.5,
@@ -40,16 +54,19 @@ function Pet ()
     	moodSwings		: 1
     };
 
-    var newPetMoods = new Moody(this.petMoodPersonality);
-    var newPetMood = new Mood(this.petMoodPersonality, petsCurrentMood);
+    var newPetMood = new Mood(this.petMoodPersonality, petCurrentMood);
+    if(newPetMood.length != 0)
+    {
+    	this.mood = newPetMood;
+    	var newActionList = new Action(this.mood);
+    	this.actionList = newActionList;
+	}
 }
 
-//***************************************************************************\\
-//'''''''''''''''''''''''''''''''Pet Encounter'''''''''''''''''''''''''''''''\\
-//***************************************************************************\\
+//***************************Pet Encounter*************************\\
 
 Pet.prototype.smellHearObject = function(itemNumber)
-{
+{/*
 	
 	if(itemNumber === undefined)
 	{
@@ -74,11 +91,11 @@ Pet.prototype.smellHearObject = function(itemNumber)
 	else if (petObjectInput[1] == 2 || petObjectInput[1] == 1)
 	{
 		pet.checkInterest(itemNumber, petObjectInput[3], petObjectInput[1]+1);
-	};
+	};*/
 };
 
 Pet.prototype.checkInterest = function(itemNumber, itemName, itemDistance)
-{  
+{  /*
 
 	var knowsItem = false;
 	//If the item is named "0" it means that the pet only hears the item.
@@ -114,18 +131,18 @@ Pet.prototype.checkInterest = function(itemNumber, itemName, itemDistance)
 				//console.log ("doesnt know item - is not curius")
 				return;
 				//Look for items in items known. if the pets wants to do a spesific thing.
-			}*/
+			}
 		}
 		else
 		{
 			//If the items is known
 			//Check if this is the item the pet is currently interested in
 		}
-	}
+	}*/
 };
 
 Pet.prototype.alteringFavoredActivity = function(itemNumber, itemName, itemDistance)
-{  
+{  /*
 	if (petNeeds.hungerLevel > petNeeds.sleepLevel)
 	{
 		//if item is a eat item, use it, if not, go look for something else
@@ -133,27 +150,8 @@ Pet.prototype.alteringFavoredActivity = function(itemNumber, itemName, itemDista
 	else 
 	{
 		//if item is a sleep item, use it, if not, go look for something else
-	}
+	}*/
 };
-
-
-/*
-    petActionsBool.eat           = false;
-    petActionsBool.sleep         = false;
-    petActionsBool.washSelf      = false;
-    petActionsBool.fight         = false;
-    petActionsBool.runAway       = false;
-    petActionsBool.threaten      = false;
-    petActionsBool.talkTo        = false;
-    petActionsBool.washOther     = false;
-    petActionsBool.grabb         = false;
-    petActionsBool.push          = false;
-    petActionsBool.exlore        = false;
-    petActionsBool.investigating = false;
-    petActionsBool.jumpOnToppOff = false;
-*/
-
-
 
 
 
