@@ -13,10 +13,9 @@ function Moody (personality)
 	//***************************************************************************\\
 
 	// If the pet reacts to something unexpected, the pet will addjust its mood
-	var petMoodAdjusters =
-	{
-	    "disapointed"       : [-2,-2],
-	    "surprised"         : [0,+7]
+	var petMoodAdjusters = {
+		"disapointed": [-2, -2],
+		"surprised": [0, +7]
 	};
 
 	//Pet needs - needs that will decrease as time passes

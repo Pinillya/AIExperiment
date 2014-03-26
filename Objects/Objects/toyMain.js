@@ -1,47 +1,76 @@
-function Toy (position)
-{    
-    this.position  = position;
-    this.texture   = 'Grapic/Inside/mouse.png';
-    this.nameId    = 'toy';
-    this.sizeX     = 100;
-    this.sizeY     = 100;
-    this.smellRad  = 30;
-    this.soundRad  = 50;
-    this.isStatic  = true;
-    this.hasAni    = false;
+function Toy(position)
+{
+	//Wont remember:
+	this.texture = 'Grapic/Inside/mouse.png';
+	this.nameId = 'toy';
+	this.sizeX = 100;
+	this.sizeY = 100;
 
-    //Sensory attributes
-    this.mainColor = 'green';
-    this.mainshape = 'oval';
-    this.smell     = 'dry';
-    this.taste     = 'plastic';
+	//Might remember:
+	//Observe
+	this.position = position;
+	this.O1Output = {
+		"position": position,
+		"isStatic": 1,
+		"hasAni": 0,
+		//How many colors, Blue, Cyan, Green, Yellow, Brown, Red, Magenta, White, Black, Gray
+		"colors": [2, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0],
+		//How many colors, Sphere, Prism, Cuboid, Cude, Cone, Cylinder, Pyramide, LongSide, LongUp
+		"shapes": [2, 0, 0, 0, 0, 0, 1, 0, 1, 0],
+		//From smooth 0 - bumpy 10.
+		"bumpySmooth": 2,
+		//Is it one form or many smaller forms (Like ear sticking out).
+		"varyingShapes": 1
+	};
 
-    // % value asosiated with actions the pet can take
-    this.eat            = 100;
-    this.sleep          = 0;
-    this.washSelf       = 0;
-    this.fight          = 0;
-    this.runAway        = 0;
-    this.threaten       = 0;
-    this.talkTo         = 0;
-    this.washOther      = 0;
-    this.grabb          = 50;
-    this.push           = 50;
-    this.exlore         = 50;
-    this.jumpOnToppOff  = 60; //This should be able to change as if they jump on it they wont get to eat it
-    
+	//HearingSound
+	this.smellRad = 30;
+	this.soundRad = 50;
+	//Fragrent, woody, noneCitrus, fruty, sharp, camical, minty, sweet, popcorn, sickening, lemon
+	this.smells = [0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0];
+	//Cold vs Warm 1-10(3-7 being safe), smooth vs rough 1-10(texture), 
+	//unsolide(soft) vs solide (0 = liquid, 1 = mud), slippery vs sticky (0 = ice)
+	this.feels = [5, 3, 8, 5];
+
+	//Interactios
+	//Tast: Bitter(Poison?), Sour(Ph, Spoild food), Salty(opens Taste), Sweet(likes the most) 1-10
+	this.eat = 0, 2, 0, 1;
+	//Not to hot or sticky is important for sleep:
+	if (this.feels[0] > 3 && this.feels[0] < 7 && this.feels[3] > 4 && this.feels[3] <= 5)
+	{
+		if (this.feels[2] > 3 && this.feels[2] < 7)
+		{
+			this.sleep = 100;
+		}
+		else
+		{
+			this.sleep = 70;
+		}
+	}
+	else
+	{
+		this.sleep = 0;
+	}
+
+	if (!this.isStatic)
+	{};
+	this.fight = 0;
+	this.runAway = 0;
+	this.threaten = 0;
+
+	this.talkTo = 0;
+	this.washOther = 0;
+	this.grabb = 70;
+	this.push = 80;
+	this.jumpOnToppOff = 60; //This should be able to change as if they jump on it they wont get to eat it
+
 	//Call the parent constructor
 	BaseObject.call(this);
-
 }
 
 Toy.prototype = new BaseObject();
 Toy.prototype.constructor = Toy;
 
-Toy.prototype.emitValues = function()
-{
-};
+Toy.prototype.emitValues = function() {};
 
-Toy.prototype.checking = function()
-{
-};
+Toy.prototype.checking = function() {};
